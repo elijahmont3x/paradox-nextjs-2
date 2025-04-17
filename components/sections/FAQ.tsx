@@ -3,80 +3,81 @@
 "use client";
 
 import { Section } from "@/components/ui/Section";
-import { SectionHeader } from "@/components/ui/SectionHeader"; // Use SectionHeader
+import { SectionHeader } from "@/components/ui/SectionHeader";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"; // Import Tabs
+import { Card, CardContent } from "@/components/ui/card"; // Removed unused CardHeader etc.
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMemeMode } from "@/hooks/use-meme-mode";
 import { cn } from "@/lib/utils";
-import { HelpCircle } from "lucide-react";
+import { HelpCircle, MessageCircleQuestion } from "lucide-react"; // Swapped HelpCircle for a Q&A style icon
 import { motion } from "framer-motion";
 
-// Structure FAQ data (Adapted from prompt for $ROACH)
+// Re-using the defined FAQ data structure
 const faqData = {
   general: [
     {
       q: "What exactly is $ROACH?",
-      q_meme: "WTF is this $ROACH thing?",
+      q_meme: "WTF is $ROACH?!",
       a: "$ROACH is a unique SPL token on the Solana blockchain featuring 'antifragile' tokenomics. It's designed to strengthen its ecosystem and reward holders, particularly during market sell-offs, by dynamically adjusting transaction taxes.",
-      a_meme: "$ROACH is the token that eats FUD for breakfast and craps out rewards for HODLers. When markets bleed, it gets STRONGER. Built different.",
+      a_meme: "$ROACH = The token that eats FUD for breakfast & rewards HODLers. When markets bleed, it gets STRONGER. Built different.",
     },
     {
-      q: "Why the cockroach theme?",
-      q_meme: "Cockroaches? Really?",
-      a: "Cockroaches are nature's ultimate survivors, embodying resilience and the ability to thrive under extreme pressure. This perfectly symbolizes the antifragile nature of $ROACH's tokenomics – gaining strength from chaos.",
-      a_meme: "Because they're UNKILLABLE LEGENDS! Survived dinosaurs, nukes... probably even your crypto portfolio. $ROACH is built like them: gets stronger when attacked.",
+      q: "Why use the cockroach theme?",
+      q_meme: "Cockroaches? Gross, dude.",
+      a: "Cockroaches symbolize ultimate survival and adaptation—thriving under pressure. This perfectly represents $ROACH's antifragile design, which gains strength from market chaos.",
+      a_meme: "Because they're UNKILLABLE LEGENDS! Survived dinosaurs & nukes. $ROACH = Built like them: gets stronger when attacked. Plus, memes.",
     },
      {
-      q: "Is this just another meme coin?",
-      q_meme: "Smells like a meme rug...",
-      a: "While $ROACH embraces the cockroach meme for its powerful symbolism and branding, it's built on innovative, serious tokenomics designed for long-term sustainability and holder benefit. Security measures like audits and locked liquidity underpin the project.",
-      a_meme: "It's a meme with an INDESTRUCTIBLE core. Funny face, serious tech. Liquidity's locked, contract's audited. Not your average pump & dump.",
+      q: "Is $ROACH just another meme coin?",
+      q_meme: "Rugpull alert? Smells like meme...",
+      a: "While $ROACH leverages the powerful symbolism of the cockroach meme, it's fundamentally built on innovative, serious tokenomics designed for long-term sustainability. Audits and locked liquidity provide a secure foundation.",
+      a_meme: "It's a meme with an INDESTRUCTIBLE soul. Funny face, serious tech inside. Liquidity LOCKED TIGHT, contract AUDITED. Not your average pump & dump trash.",
     },
   ],
   mechanics: [
     {
       q: "How does the 5-tier dynamic system work?",
-      q_meme: "Explain the 5-tier FUD defense levels.",
-      a: "The smart contract monitors the ratio of sell volume to buy volume over rolling 4-hour periods. Based on this ratio, it automatically adjusts the token's operational 'tier', which changes the buy/sell taxes and the percentage of sell tax distributed as reflections to holders.",
-      a_meme: "Contract watches the charts 24/7. Lots of selling = HIGHER TIER. Higher tier = OUCH taxes for sellers, YUMMY reflections for HODLers, and CHEAPER buys for new roaches joining the colony.",
+      q_meme: "Explain the 5 levels of Roach Fu.",
+      a: "The contract monitors sell vs. buy volume over 4-hour periods. Based on this ratio, it auto-adjusts to one of five tiers, changing buy/sell taxes and reflection percentages distributed to holders.",
+      a_meme: "Contract is always watching. Lots of selling = HIGH TIER ACTIVATED. Higher tier = OUCH tax for sellers, YUMMY reflections for HODLers, CHEAP entry for new roaches.",
     },
     {
-      q: "How do I earn reflection rewards?",
-      q_meme: "How do I get free $ROACH tendies?",
-      a: "Simply hold $ROACH tokens in your Solana wallet. A percentage of every sell transaction (ranging from 3% in Tier 1 up to 10% in Tier 5) is automatically redistributed proportionally to all existing holders.",
-      a_meme: "Just HODL! When paper hands dump their bags, you automatically get a cut of their sell tax dropped into your wallet. The more they panic, the more you stack. EZ.",
+      q: "How do reflection rewards work?",
+      q_meme: "How do I get FREE $ROACH?",
+      a: "Hold $ROACH in your wallet. A portion of every sell transaction (3% to 10%, depending on the active tier) is automatically redistributed to all holders proportionally.",
+      a_meme: "Just HODL, genius! When paper hands DUMP, you auto-magically get a cut of their SELL TAX air-dropped to your wallet. More panic = more stacks for you. Simple.",
     },
      {
-      q: "How does $ROACH handle large whale dumps?",
-      q_meme: "Can whales dump on us and crush the price?",
-      a: "Large sell volumes trigger higher tiers (Tier 4 & 5). This significantly increases the sell tax (up to 15%) making large dumps expensive, while simultaneously maximizing reflection rewards (up to 10%) for remaining holders. This disincentivizes sudden large sell-offs and helps stabilize the ecosystem.",
-      a_meme: "Let 'em try! Big dumps = INSTANT Tier 5 = MEGA taxes for the whale, MAX reflections for the Colony, and SUPER CHEAP buys for reinforcements. Their dump becomes our fuel.",
+      q: "How does $ROACH deter whale dumps?",
+      q_meme: "Wen whale dump crushes us?",
+      a: "Large sell volume pushes the system into higher tiers (4 & 5), dramatically increasing the sell tax (up to 15%) and reflections (up to 10%). This makes sudden large dumps financially punishing for the seller and highly rewarding for remaining holders.",
+      a_meme: "Let 'em try! Big dump = INSTANT TIER 5 = MEGA OUCH taxes for Mr. Whale, MAX FREE ROACH for the Colony, and a BIG DISCOUNT for new buyers. Their dump is literally our pump fuel.",
     },
   ],
   technical: [
     {
-      q: "Is the smart contract audited?",
-      q_meme: "Is this code safe or sketchy?",
-      a: "Yes, the $ROACH smart contract has undergone a comprehensive security audit by CertiK. The audit confirmed the absence of critical or major vulnerabilities. The full audit report is publicly available.",
-      a_meme: "Audited by the pros at CertiK. Passed with flying colors. Safer than Fort Knox guarded by cyber-cockroaches.",
+      q: "Has the smart contract been audited?",
+      q_meme: "Is the code legit or nah?",
+      a: "Yes, CertiK conducted a comprehensive security audit of the $ROACH smart contract. No critical or major issues were found. The full report link can be found in the footer/resources.",
+      a_meme: "CHECKED by CertiK pros. Passed ✅ No critical flaws. Safer than your grandma's knitting club.",
     },
     {
-      q: "What about the liquidity pool?",
-      q_meme: "Is the liquidity locked or can devs run off?",
-      a: "The initial liquidity provided on Raydium during the launch is locked for a minimum of 12 months using the PinkLock service, preventing removal by the team. Proof of lock is publicly verifiable.",
-      a_meme: "Locked for 1 year solid. Can't be rugged. Team can't touch it. Your funds are safer than a roach in a fallout shelter.",
+      q: "Is the liquidity pool locked?",
+      q_meme: "Rug incoming? Where's the LP lock?",
+      a: "Yes, initial liquidity provided on Raydium is locked for 12 months via PinkLock, verifiable on the blockchain. This prevents the team from removing liquidity.",
+      a_meme: "LP LOCKED 1 year MINIMUM via PinkLock. PROOF in the footer. Team CAN'T touch it. Zero rug potential.",
     },
      {
-      q: "Where can I view the contract code?",
-      q_meme: "Show me the code, nerd!",
-      a: "The $ROACH contract address is [ROACHaBXfk3N57vr1gDmQCkSp22d9Xv4V1f] (Replace with actual). You can view the verified source code on Solana explorers like Solscan or SolanaFM.",
-       a_meme: "It's all public on the blockchain, my dude. Address: [ROACHaBXfk3N57vr1gDmQCkSp22d9Xv4V1f] (Replace). Go peek, no secrets here.", // Remember to replace address
+      q: "Where can I view the verified contract?",
+      q_meme: "Code or it didn't happen!",
+      // REMEMBER TO REPLACE ADDRESS IN BOTH STRINGS
+      a: "The verified source code for the $ROACH contract (ROACHaBXfk3N57vr1gDmQCkSp22d9Xv4V1f) is available on Solana explorers like Solscan. Check the links in the footer.",
+       a_meme: "See for yourself, nerd! Contract: ROACHaBXfk3N57vr1gDmQCkSp22d9Xv4V1f. Look it up on Solscan. Full transparency.",
     },
   ],
 };
@@ -99,13 +100,13 @@ export function FAQ() {
   };
 
   return (
-    <Section id="faq" className="py-20 md:py-28 bg-gradient-to-b from-muted/20 via-background to-background">
+    <Section id="faq" className="py-20 md:py-28 bg-gradient-to-b from-background to-muted/10">
       <SectionHeader
-         title={memeMode ? "Burning Questions? Roach Intel Inside" : "Frequently Asked Questions"}
+         title={memeMode ? "Need-to-Know Roach Intel" : "Frequently Asked Questions"}
          description={memeMode
-            ? "Everything the aspiring cockroach commando needs to know before joining the unstoppable colony."
-            : "Find answers to common questions about $ROACH, its unique mechanics, and project details."}
-         subtitle={<><HelpCircle className="inline h-4 w-4 mr-1"/> Common Queries</>}
+            ? "Your burning questions answered. Read this before you ape... or ask stupid questions in TG."
+            : "Find clear answers to common inquiries about the $ROACH token, its unique mechanics, and overall project details."}
+         subtitle={<><MessageCircleQuestion className="inline h-4 w-4 mr-1"/> Answers & Clarifications</>} // Changed Icon
          alignment="center"
          className="mb-16"
       />
@@ -117,52 +118,67 @@ export function FAQ() {
           viewport={{ once: true, amount: 0.1 }}
       >
         <Card className={cn(
-            "max-w-3xl mx-auto shadow-lg overflow-hidden",
+            "max-w-3xl mx-auto shadow-xl overflow-hidden border border-border/10", // Subtle border
             memeMode && "border-dashed border-primary/40"
           )}>
-          <CardContent className="p-0">
-             <Tabs defaultValue="general" className="w-full">
-              <TabsList className="grid w-full grid-cols-3 rounded-t-lg rounded-b-none p-1 h-auto gap-1 bg-muted">
-                <TabsTrigger value="general" className={cn("py-2 data-[state=active]:shadow", memeMode && "font-mission")}>General</TabsTrigger>
-                <TabsTrigger value="mechanics" className={cn("py-2 data-[state=active]:shadow", memeMode && "font-mission")}>Mechanics</TabsTrigger>
-                <TabsTrigger value="technical" className={cn("py-2 data-[state=active]:shadow", memeMode && "font-mission")}>Technical</TabsTrigger>
-              </TabsList>
+          {/* CardContent is not needed here as Tabs handle padding */}
+           <Tabs defaultValue="general" className="w-full">
+            <TabsList className="grid w-full grid-cols-3 rounded-t-lg rounded-b-none p-1 h-auto gap-1 bg-muted">
+                <TabsTrigger value="general" className={cn("py-2 data-[state=active]:shadow data-[state=active]:bg-background data-[state=active]:text-primary font-medium", memeMode && "font-mission data-[state=active]:font-bold")}>
+                  General
+                </TabsTrigger>
+                <TabsTrigger value="mechanics" className={cn("py-2 data-[state=active]:shadow data-[state=active]:bg-background data-[state=active]:text-primary font-medium", memeMode && "font-mission data-[state=active]:font-bold")}>
+                  Mechanics
+                </TabsTrigger>
+                <TabsTrigger value="technical" className={cn("py-2 data-[state=active]:shadow data-[state=active]:bg-background data-[state=active]:text-primary font-medium", memeMode && "font-mission data-[state=active]:font-bold")}>
+                  Technical
+                </TabsTrigger>
+            </TabsList>
 
-               {/* Padding applied around the content area */}
-               <div className="p-6 md:p-8">
-                  <TabsContent value="general">
-                    <FAQAccordion items={faqData.general} memeMode={memeMode} />
-                  </TabsContent>
-                  <TabsContent value="mechanics">
-                    <FAQAccordion items={faqData.mechanics} memeMode={memeMode} />
-                  </TabsContent>
-                   <TabsContent value="technical">
-                    <FAQAccordion items={faqData.technical} memeMode={memeMode} />
-                  </TabsContent>
-               </div>
-             </Tabs>
-          </CardContent>
+             {/* Padding applied around the Accordion content area */}
+             <div className="p-6 md:p-8 bg-card">
+                <TabsContent value="general" className="mt-0"> {/* Remove default TabsContent margin */}
+                  <FAQAccordion items={faqData.general} memeMode={memeMode} />
+                </TabsContent>
+                <TabsContent value="mechanics" className="mt-0">
+                  <FAQAccordion items={faqData.mechanics} memeMode={memeMode} />
+                </TabsContent>
+                 <TabsContent value="technical" className="mt-0">
+                  <FAQAccordion items={faqData.technical} memeMode={memeMode} />
+                 </TabsContent>
+             </div>
+           </Tabs>
         </Card>
       </motion.div>
+       <motion.p
+           initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.2, duration: 0.5 }}
+           className="mt-8 text-center text-sm text-muted-foreground max-w-lg mx-auto"
+        >
+          {memeMode ? "Still confused? Hop in the Telegram, but try not to ask stuff answered here, yeah?" : "Have more questions? Join our community channels linked in the footer for further assistance."}
+       </motion.p>
     </Section>
   );
 }
 
-// Local component to render accordion items for a specific category
+// FAQAccordion Sub-Component (Slightly refined styling)
 function FAQAccordion({ items, memeMode }: { items: FAQItemData[]; memeMode: boolean }) {
   return (
-    <Accordion type="single" collapsible className="w-full space-y-2"> {/* Added space-y */}
+    <Accordion type="single" collapsible className="w-full space-y-3"> {/* Increased space */}
       {items.map((item, index) => (
-        <AccordionItem key={index} value={`item-${index}`} className="border border-border/70 rounded-md shadow-sm bg-background/50 px-4 transition-shadow hover:shadow-md"> {/* Styled item */}
+        <AccordionItem
+            key={index}
+            value={`item-${index}`}
+            className="border border-border/50 rounded-lg shadow-sm bg-background/70 px-4 data-[state=open]:border-primary/30 transition-all duration-200 overflow-hidden" // Added background, overflow-hidden for animation
+        >
           <AccordionTrigger className={cn(
-              "text-left text-base font-medium hover:no-underline py-4", // Adjusted padding
+              "text-left text-sm sm:text-base font-medium hover:no-underline py-3.5 text-foreground/90", // Adjusted padding/size
                memeMode && "font-mission tracking-wide"
            )}>
             {memeMode ? item.q_meme : item.q}
           </AccordionTrigger>
-          <AccordionContent className="text-muted-foreground prose prose-sm dark:prose-invert max-w-none pb-4 leading-relaxed"> {/* Adjusted padding */}
-             {/* Using dangerouslySetInnerHTML allows simple HTML like <strong> if needed later, otherwise just use <p> */}
-             <p dangerouslySetInnerHTML={{ __html: memeMode ? item.a_meme : item.a }} />
+          <AccordionContent className="text-muted-foreground text-sm pb-4 leading-relaxed [&_p]:m-0"> {/* Reset paragraph margin */}
+             {/* Using paragraph tag directly */}
+             <p>{memeMode ? item.a_meme : item.a}</p>
           </AccordionContent>
         </AccordionItem>
       ))}

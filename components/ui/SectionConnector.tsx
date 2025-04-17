@@ -1,68 +1,85 @@
+// --- START OF FILE ./components/ui/SectionConnector.tsx ---
+
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowDown, ChevronRight } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card"; // Use Card for structure
+import { Card, CardContent } from "@/components/ui/card";
 import { useMemeMode } from "@/hooks/use-meme-mode";
-import { Section } from "./Section";
+import { Section } from "./Section"; // Re-import Section component
 
 interface SectionConnectorProps {
   prevSection?: string;
   summary?: React.ReactNode;
   nextConcept?: React.ReactNode;
-  className?: string;
-  // Add onRequestMissionBrief if that feature is kept
+  className?: string; // This className will now be applied to the <Section> wrapper
 }
 
 /**
- * SectionConnector Component - Redesigned for better flow indication.
+ * SectionConnector Component - Visually links landing page sections.
+ * Uses the Section wrapper to ensure full-height presentation like main sections.
  */
 export function SectionConnector({
   prevSection,
   summary,
   nextConcept,
-  className
+  className // Applied to the <Section> element
 }: SectionConnectorProps) {
     const { memeMode } = useMemeMode();
 
+    const cardVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+    };
+
+    // Only render if there's meaningful content
+    if (!prevSection && !summary && !nextConcept) {
+        return null;
+    }
+
   return (
-    <Section className={cn("", className)}>
+    // Wrap the entire connector content with the Section component
+    // This will give it min-h-screen, centering, padding container etc. by default
+    <Section className={cn("bg-gradient-to-b from-background via-muted/5 to-background", className)}>
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true, amount: 0.3 }}
-        className="max-w-2xl mx-auto"
+        variants={cardVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.5 }}
+        className="max-w-2xl mx-auto" // Keep connector content constrained
       >
         <Card className={cn(
-            "bg-gradient-to-br from-muted/50 to-background border-border/50 shadow-sm",
-            memeMode && "border-dashed border-primary/30 transform rotate-[-0.3deg]"
+            "bg-gradient-to-br from-muted/30 to-background border border-border/30 shadow-sm text-center", // Reverted card styling (optional)
+            memeMode && "border-dashed border-primary/30 transform rotate-[-0.2deg] hover:rotate-0 transition-transform"
         )}>
-          <CardContent className="p-5 md:p-6">
-            {prevSection && (
-              <p className="text-xs text-muted-foreground mb-2">
-                {memeMode ? `Previously on $ROACH:` : `Following:`} <span className="font-medium text-foreground">{prevSection}</span>
-              </p>
-            )}
-
+          <CardContent className="p-5 md:p-6 space-y-3">
+            {/* Summary Section */}
             {summary && (
-              <p className="text-base mb-3 font-medium">{summary}</p>
+              <div className="border-b pb-3 mb-3 border-border/50">
+                 {prevSection && (
+                   <p className="text-xs text-muted-foreground mb-1">
+                     {memeMode ? `Recap:` : `Previously:`} <span className="font-medium text-foreground">{prevSection}</span>
+                   </p>
+                 )}
+                 <p className="text-base md:text-lg font-medium">{summary}</p>
+              </div>
             )}
 
+            {/* Next Concept Section */}
             {nextConcept && (
-              <div className="flex items-center gap-2 text-sm text-primary">
-                <ArrowDown className="h-4 w-4 shrink-0"/>
-                <span className={cn("font-semibold", memeMode && "font-mission")}>
+              <div className="flex flex-col items-center gap-1.5 text-sm text-primary">
+                <ArrowDown className="h-5 w-5 shrink-0 animate-bounce"/>
+                <span className={cn("font-semibold tracking-wide", memeMode && "font-mission")}>
                   {memeMode ? `Next Mission:` : `Up Next:`}
                 </span>
-                <span className="text-foreground/90">{nextConcept}</span>
+                <span className="text-foreground/90 text-base font-medium">{nextConcept}</span>
               </div>
             )}
           </CardContent>
         </Card>
       </motion.div>
-    </Section>
+    </Section> // End of Section wrapper
   );
 }
+// --- END OF FILE ./components/ui/SectionConnector.tsx ---

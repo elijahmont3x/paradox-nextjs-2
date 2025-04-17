@@ -4,13 +4,17 @@
 
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Use Card for trait display
 import { CockroachMascot } from "@/components/ui/CockroachMascot";
 import { useMemeMode } from "@/hooks/use-meme-mode";
 import { cn } from "@/lib/utils";
-import { Zap, Shield, RotateCw, Network, Bug, Link2 } from "lucide-react"; // Added Link2 for connection emphasis
+import { Zap, Shield, RotateCw, Network, Bug, Link2, HelpCircle, Info } from "lucide-react"; // Using Info for HoverCard trigger
 import { motion } from "framer-motion";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card" // Import HoverCard
 
 export function CockroachConnection() {
   const { memeMode } = useMemeMode();
@@ -18,150 +22,173 @@ export function CockroachConnection() {
   const traits = [
     {
       icon: Zap, // Radiation/Energy theme
-      title: (memeMode: boolean) => memeMode ? "Survives Nukes" : "Extreme Resilience",
-      cockroachFact: "Can withstand radiation levels far exceeding human tolerance.",
-      tokenLink: (memeMode: boolean) => memeMode
-        ? "Like roaches in fallout, Tier 5 rewards HODLers MAX during market nukes."
-        : "Tier 5's maximum reflection rate mirrors this, protecting holders during extreme stress.",
+      title: (memeMode: boolean) => memeMode ? "Nuke Proof" : "Extreme Resilience",
+      cockroachFact: "Withstands radiation levels lethal to humans many times over.",
+      tokenLinkTitle: (memeMode: boolean) => memeMode ? "$ROACH Link: Tier 5 Defense" : "Tokenomic Parallel: Tier 5 Response",
+      tokenLinkText: (memeMode: boolean) => memeMode
+        ? "Just like roaches shrugging off fallout, Tier 5 blasts HODLers with max reflections (10%!) during market nukes."
+        : "Tier 5 activation during extreme sell-offs maximizes reflection rewards (10%), protecting long-term holders akin to radiation resistance.",
       color: "red",
     },
     {
       icon: Shield,
-      title: (memeMode: boolean) => memeMode ? "Hard Exoskeleton" : "Structural Defense",
-      cockroachFact: "Tough outer shell provides significant physical protection.",
-      tokenLink: (memeMode: boolean) => memeMode
-        ? "High sell taxes (Tiers 4/5) act like ARMOR, making big dumps expensive for attackers."
-        : "Increasing sell taxes in higher tiers form a protective economic barrier against panic selling.",
+      title: (memeMode: boolean) => memeMode ? "Exoskeleton Armor" : "Structural Defense",
+      cockroachFact: "Hardened outer shell provides robust protection against physical threats.",
+      tokenLinkTitle: (memeMode: boolean) => memeMode ? "$ROACH Link: Expensive Dumps" : "Tokenomic Parallel: Discouraging Sells",
+      tokenLinkText: (memeMode: boolean) => memeMode
+        ? "High sell taxes in Tiers 4 (12%) & 5 (15%) act like ARMOR, making large panic dumps costly for attackers."
+        : "Progressively higher sell taxes in Tiers 4 and 5 create a significant economic barrier, disincentivizing large, destabilizing sell orders.",
        color: "orange",
     },
     {
       icon: RotateCw, // Adaptation/Cycle theme
-      title: (memeMode: boolean) => memeMode ? "Adapts Instantly" : "Rapid Adaptation",
-      cockroachFact: "Quickly develops resistance to pesticides and environmental threats.",
-      tokenLink: (memeMode: boolean) => memeMode
-        ? "The 4-hour tier check means $ROACH reacts to FUD faster than most degens check charts."
-        : "The 4-hour evaluation cycle allows the tax system to adapt swiftly to changing market dynamics.",
-      color: "yellow", // Changed from teal to yellow for visual distinction
+      title: (memeMode: boolean) => memeMode ? "Lightning Reflexes" : "Rapid Adaptation",
+      cockroachFact: "Can quickly develop resistance to new environmental threats like pesticides.",
+       tokenLinkTitle: (memeMode: boolean) => memeMode ? "$ROACH Link: 4-Hour Scan" : "Tokenomic Parallel: Swift Adjustments",
+       tokenLinkText: (memeMode: boolean) => memeMode
+        ? "The contract checks the market vibe every 4 hours. $ROACH adapts to FUD faster than you can type 'sell'."
+        : "The system evaluates the sell/buy ratio every 4 hours, allowing the tax and reflection tiers to adapt quickly to changing market dynamics.",
+      color: "yellow",
     },
      {
       icon: Network, // Decentralized theme
-      title: (memeMode: boolean) => memeMode ? "Thrives Anywhere (Decentralized)" : "Decentralized Strength",
-      cockroachFact: "Can survive decapitation for weeks due to a distributed nervous system.",
-      tokenLink: (memeMode: boolean) => memeMode
-        ? "Reflections go to *all* holders. The whole colony eats, not just the devs."
-        : "Rewards are distributed network-wide, enhancing collective resilience, not relying on central points.",
+      title: (memeMode: boolean) => memeMode ? "Zombie Mode (Decentralized)" : "Distributed Strength",
+      cockroachFact: "Can survive without a head for weeks due to a decentralized nervous system.",
+      tokenLinkTitle: (memeMode: boolean) => memeMode ? "$ROACH Link: Everyone Eats" : "Tokenomic Parallel: Network Effects",
+      tokenLinkText: (memeMode: boolean) => memeMode
+        ? "Reflections are blasted out to *all* HODLers wallets automatically. The whole colony thrives, not just a central point."
+        : "Rewards (reflections) are distributed across the entire network of holders, enhancing collective ecosystem resilience rather than relying on central control points.",
       color: "blue",
     },
   ];
 
+   // Tailwind color mapping utility
+   const colorMap = {
+      red: { text: 'text-red-600', bg: 'bg-red-500/10', border: 'border-red-500/30', hoverBorder: 'hover:border-red-500/50' },
+      orange: { text: 'text-orange-600', bg: 'bg-orange-500/10', border: 'border-orange-500/30', hoverBorder: 'hover:border-orange-500/50' },
+      yellow: { text: 'text-yellow-600', bg: 'bg-yellow-500/10', border: 'border-yellow-500/30', hoverBorder: 'hover:border-yellow-500/50' },
+      blue: { text: 'text-blue-600', bg: 'bg-blue-500/10', border: 'border-blue-500/30', hoverBorder: 'hover:border-blue-500/50' },
+   };
+
+
   // Animation Variants
-  const sectionVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.15 }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
-  };
-
-  const cardVariants = {
-      hidden: { opacity: 0, scale: 0.9 },
+  const sectionVariants = { /* ... keep as before ... */
+     hidden: { opacity: 0 },
+     visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
+   };
+  const itemVariants = { /* ... keep as before ... */
+     hidden: { opacity: 0, y: 20 },
+     visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+   };
+  const cardGridVariants = { /* ... keep as before ... */
+      hidden: {},
+      visible: { transition: { staggerChildren: 0.1 }}
+   };
+   const cardItemVariants = { /* ... keep as before ... */
+      hidden: { opacity: 0, scale: 0.95 },
       visible: { opacity: 1, scale: 1, transition: { duration: 0.4, ease: "backOut" } }
-  };
-
+   };
 
   return (
-    // Add some background gradient/texture if desired
-    <Section id="cockroach-connection" className="bg-muted/20 py-20 md:py-28">
+    <Section id="cockroach-connection" className="py-20 md:py-28 bg-muted/20">
        <SectionHeader
-        title={memeMode ? "Why a Roach? Cuz They're UNKILLABLE." : "The Cockroach: Nature's Antifragile Master"}
+        title={memeMode ? "Why a Roach? Survival Masterclass" : "The Cockroach: Nature's Antifragile Blueprint"}
         description={memeMode
-          ? "It ain't just a meme. Cockroaches literally *invented* antifragility. Here’s how $ROACH copies the homework:"
-          : "The cockroach serves as a powerful metaphor for antifragility. Its biological adaptations to extreme stress directly inspire $ROACH's economic design principles."
+          ? "It's not random. Cockroaches are nature's OG HODLers. $ROACH learned from the best survivors on Earth:"
+          : "The cockroach serves as a powerful metaphor for antifragility. Its biological adaptations directly inspire $ROACH's economic design."
         }
-        subtitle={<><Bug className="inline h-4 w-4 mr-1"/> Symbolic Inspiration</>}
+        subtitle={<><Bug className="inline h-4 w-4 mr-1"/> Biological Inspiration</>} // Changed subtitle slightly
         alignment="center"
         className="mb-16"
        />
 
+      {/* Intro Row: Mascot + Text */}
       <motion.div
           variants={sectionVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-5xl mx-auto mb-16" // Center align grid items
+          className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center max-w-5xl mx-auto mb-16" // Adjusted grid cols for layout
       >
-          {/* Mascot */}
-          <motion.div
-            variants={itemVariants}
-            className="flex justify-center lg:justify-end" // Center on mobile, align right on large screens
-          >
-            <CockroachMascot size="xl" className={cn(memeMode && "animate-pulse")} /> {/* Subtle pulse in meme mode */}
+          <motion.div variants={itemVariants} className="flex justify-center lg:col-span-1">
+             <motion.div
+                whileHover={{ scale: 1.05, rotate: 2 }} // Add subtle hover effect to mascot
+                transition={{ type: 'spring', stiffness: 300 }}
+             >
+                <CockroachMascot size="xl" className={cn(memeMode && "animate-pulse")}/>
+             </motion.div>
           </motion.div>
 
-         {/* Explanatory Text */}
-          <motion.div
-              variants={itemVariants}
-              className="max-w-xl text-center lg:text-left" // Center text on mobile, left on large
-          >
-                <h3 className={cn("text-2xl font-semibold mb-4", memeMode && "font-mission")}>
-                  {memeMode ? "300 Million Years of Not Dying" : "Embodying Antifragility"}
+         <motion.div variants={itemVariants} className="lg:col-span-2 max-w-xl text-center lg:text-left mx-auto lg:mx-0">
+                <h3 className={cn("text-2xl lg:text-3xl font-semibold mb-4", memeMode && "font-mission")}>
+                  {memeMode ? "300 Million Years of Not Getting Rekt" : "Embodying Antifragility Principles"}
                 </h3>
                 <p className="text-lg text-muted-foreground leading-relaxed">
                     {memeMode
-                    ? "Cockroaches have been shrugging off extinction events while dinosaurs were still figuring things out. $ROACH channels that same 'survive-anything' energy into its tokenomics."
-                    : "The cockroach has evolved exceptional resilience over millions of years. $ROACH translates these survival strategies into a dynamic economic model designed to benefit from market stress."}
+                    ? "These guys were chilling before dinosaurs existed and will probably be here after humans tweet themselves into oblivion. $ROACH copies that unkillable vibe."
+                    : "The cockroach's remarkable evolutionary success demonstrates extreme resilience and adaptation. $ROACH translates these survival strategies into dynamic tokenomics."}
                 </p>
           </motion.div>
       </motion.div>
 
       {/* Trait Cards grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-        {traits.map((trait, index) => (
-          <motion.div
-             key={index}
-             variants={cardVariants}
-             initial="hidden"
-             whileInView="visible"
-             viewport={{ once: true, amount: 0.4 }} // Trigger animation when card is more visible
-             transition={{ delay: index * 0.1 }} // Stagger card animations
-          >
-            <Card className={cn(
-              "h-full border hover:border-foreground/20 transition-colors duration-300 shadow-sm hover:shadow-md", // Subtle hover effect
-              `border-${trait.color}-500/20`, // Use dynamic border color based on trait
-              memeMode && `border-dashed border-${trait.color}-500/50` // Dashed border in meme mode
-            )}>
-              <CardContent className="p-6">
-                <div className="flex items-center gap-4 mb-4">
-                   <div className={cn(
-                      "p-2 rounded-full",
-                      `bg-${trait.color}-500/10` // Dynamic background color
+      <motion.div
+          variants={cardGridVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto"
+        >
+        {traits.map((trait) => {
+            const colors = colorMap[trait.color as keyof typeof colorMap];
+            return (
+            <motion.div key={trait.title(false)} variants={cardItemVariants}>
+              {/* Wrap Card in HoverCardTrigger */}
+              <HoverCard openDelay={150} closeDelay={50}>
+                <HoverCardTrigger asChild>
+                    <Card className={cn(
+                    "h-full border shadow-md transition-all duration-300 flex flex-col cursor-help", // Added cursor-help
+                    colors.border,
+                    colors.hoverBorder, // Apply hover border color
+                    "hover:shadow-lg hover:scale-[1.02]", // Enhanced hover effect
+                    memeMode && "border-dashed"
                     )}>
-                     <trait.icon className={cn("h-6 w-6", `text-${trait.color}-500`)} /> {/* Dynamic text color */}
-                   </div>
-                   <h3 className={cn("text-xl font-semibold flex-1", memeMode && "font-mission")}>{trait.title(memeMode)}</h3>
-                </div>
-                <div className="space-y-3 text-sm">
-                   {/* Roach Fact */}
-                    <div className="flex items-start gap-2">
-                      <Bug className="h-4 w-4 text-muted-foreground mt-0.5 shrink-0"/>
-                      <p><span className="font-medium text-muted-foreground">Roach Fact:</span> {trait.cockroachFact}</p>
+                    <CardContent className="p-6 flex-grow flex flex-col"> {/* Use flex-grow */}
+                        <div className="flex items-center gap-4 mb-4">
+                            <div className={cn("p-2 rounded-full", colors.bg)}>
+                                <trait.icon className={cn("h-6 w-6", colors.text)} />
+                            </div>
+                            <h3 className={cn("text-lg font-semibold flex-1", memeMode && "font-mission")}>{trait.title(memeMode)}</h3>
+                             {/* Info icon visible to hint at hover */}
+                             <Info className="h-4 w-4 text-muted-foreground/50 shrink-0" />
+                        </div>
+                        <div className="flex items-start gap-2 text-sm text-muted-foreground flex-grow mb-3"> {/* Fact takes remaining space */}
+                           <Bug className="h-4 w-4 text-muted-foreground/70 mt-0.5 shrink-0"/>
+                           <p><span className="font-medium text-foreground/80">Roach Trait:</span> {trait.cockroachFact}</p>
+                        </div>
+                        {/* Minimal indicator for the link */}
+                        <div className="flex items-center gap-1 text-xs text-primary/70 mt-auto pt-2 border-t border-dashed border-border">
+                           <Link2 className="h-3 w-3" /> See $ROACH Connection
+                        </div>
+                    </CardContent>
+                    </Card>
+                </HoverCardTrigger>
+                {/* HoverCardContent to show the Token Link */}
+                <HoverCardContent side="top" align="center" className="w-80 shadow-xl border-primary/30">
+                    <div className="space-y-2">
+                        <h4 className={cn("text-sm font-semibold", colors.text, memeMode && "font-mission")}>
+                           {trait.tokenLinkTitle(memeMode)}
+                        </h4>
+                        <p className="text-xs text-muted-foreground">
+                           {trait.tokenLinkText(memeMode)}
+                        </p>
                     </div>
-                   {/* Token Link */}
-                    <div className="flex items-start gap-2">
-                       <Link2 className="h-4 w-4 text-primary mt-0.5 shrink-0"/>
-                       <p><span className={cn("font-medium", memeMode && "font-mission")}>$ROACH Link:</span> {trait.tokenLink(memeMode)}</p>
-                    </div>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
-      </div>
+                </HoverCardContent>
+             </HoverCard>
+            </motion.div>
+            );
+        })}
+      </motion.div>
     </Section>
   );
 }

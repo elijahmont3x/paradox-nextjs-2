@@ -9,8 +9,7 @@ import { Footer } from "@/components/layout/Footer";
 
 // Section Components
 import { Hero } from "@/components/sections/Hero";
-import { ProblemSolutionSection } from "@/components/sections/ProblemSolution";
-import { AntifragilityIntro } from "@/components/sections/AntifragilityIntro";
+import { TheAntifragileEdge } from "@/components/sections/TheAntifragileEdge";
 import { CockroachConnection } from "@/components/sections/CockroachConnection";
 import { TokenMechanics } from "@/components/sections/TokenMechanics";
 import { MarketScenarios } from "@/components/sections/MarketScenarios";
@@ -22,121 +21,117 @@ import { SocialProof } from "@/components/sections/SocialProof";
 import { FAQ } from "@/components/sections/FAQ";
 
 // UI Components
-import { SectionConnector } from "@/components/ui/SectionConnector"; // Import the SectionConnector
-
-// Hooks (optional here, but good practice if needed later)
-import { useMemeMode } from '@/hooks/use-meme-mode';
+import { SectionConnector } from "@/components/ui/SectionConnector";
 
 export default function Home() {
-  // Hook to potentially customize connector text based on mode,
-  // but we'll keep it simple for now and let the connector handle it internally.
-  // const { memeMode } = useMemeMode();
 
-  // Smooth scroll handler
+  // Smooth scroll handler (keep as is)
   const handleScrollTo = (id: string) => {
-    const element = document.getElementById(id);
-    // Adding a small offset to account for sticky header height (adjust value as needed)
-    const headerOffset = 80; // Adjust this based on your header height
-    if (element) {
-        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-        const offsetPosition = elementPosition - headerOffset;
-
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth"
-        });
-    }
-  };
-
+      const element = document.getElementById(id);
+      const headerOffset = 80;
+      if (element) {
+          const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+          const offsetPosition = elementPosition - headerOffset;
+          window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+      }
+   };
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
-      <main className="flex-grow">
-        {/* Hero introduces the token */}
-        <Hero onScrollDown={() => handleScrollTo('problem-solution')} />
+      {/* Main content area with scroll snapping */}
+      <main className="flex-grow scroll-smooth" style={{ scrollSnapType: 'y mandatory' }}>
+        {/* 1. Hero - Defaults to full height */}
+        <Hero onScrollDown={() => handleScrollTo('the-antifragile-edge')} />
 
-        {/* Explain the problem $ROACH solves */}
-        <ProblemSolutionSection />
+        {/* Connector - Uses its own padding */}
         <SectionConnector
             prevSection="Introduction"
             summary="Existing tokens often fail under pressure."
             nextConcept="The Core Concept: Antifragility"
         />
+        {/* 2. Problem / Solution / Antifragility Concept - Defaults to full height */}
+        <TheAntifragileEdge id="the-antifragile-edge" /> {/* Added ID here */}
 
-        {/* Define Antifragility vs. Resilience/Fragility */}
-        <AntifragilityIntro />
+        {/* Connector - Uses its own padding */}
         <SectionConnector
             prevSection="Antifragility Explained"
             summary="Antifragility means gaining from chaos, unlike resilience (surviving) or fragility (breaking)."
             nextConcept="Why the Cockroach?"
         />
-
-        {/* Connect the concept to the mascot */}
+        {/* 3. Link to Mascot - Defaults to full height */}
         <CockroachConnection />
+
+        {/* Connector - Uses its own padding */}
         <SectionConnector
             prevSection="The Cockroach Metaphor"
-            summary="The cockroach embodies the antifragile traits $ROACH implements."
-            nextConcept="The $ROACH Core Mechanics"
+            summary="Specific cockroach traits inspire $ROACH's adaptive mechanics."
+            nextConcept="Core $ROACH Mechanics (How it Works)"
         />
-
-        {/* Detail the 5-tier system */}
+        {/* 4. Detail the 5-tier system - Defaults to full height */}
         <TokenMechanics />
+
+        {/* Connector - Uses its own padding */}
         <SectionConnector
             prevSection="Core $ROACH Mechanics"
-            summary="A dynamic 5-tier tax system adapts to market pressure, rewarding holders."
-            nextConcept="How $ROACH Performs vs Others"
+            summary="The 5-tier system dynamically adjusts taxes and rewards based on market pressure."
+            nextConcept="How $ROACH Performs Differently"
         />
-
-        {/* Compare performance in different scenarios */}
+        {/* 5. Compare performance - Defaults to full height */}
         <MarketScenarios />
+
+        {/* Connector - Uses its own padding */}
         <SectionConnector
             prevSection="Market Scenario Comparison"
-            summary="$ROACH leverages volatility, outperforming static models during stress."
+            summary="$ROACH leverages volatility for potential gain, outperforming static models."
             nextConcept="Token Supply & Allocation"
         />
-
-        {/* Show token distribution and details */}
+        {/* 6. Show token distribution - Defaults to full height */}
         <Tokenomics />
+
+        {/* Connector - Uses its own padding */}
         <SectionConnector
             prevSection="Tokenomics Breakdown"
-            summary="A fixed supply with strategic allocation for growth and security."
+            summary="A fixed supply strategically allocated for growth and security."
             nextConcept="Security & Trust Measures"
         />
-
-        {/* Build trust with security details */}
+        {/* 7. Build trust - Defaults to full height */}
         <SecuritySection />
+
+        {/* Connector - Uses its own padding */}
         <SectionConnector
             prevSection="Security Measures"
-            summary="Audited contract, locked liquidity, and vested team ensure safety."
+            summary="Audited contract, locked liquidity, and vested team ensure a safe foundation."
             nextConcept="Project Development Roadmap"
         />
-
-        {/* Outline future plans */}
+        {/* 8. Outline future plans - Defaults to full height */}
         <Roadmap />
+
+        {/* Connector - Uses its own padding */}
         <SectionConnector
             prevSection="Roadmap"
-            summary="Phased development ensures continuous growth and feature implementation."
+            summary="Phased development focusing on launch, growth, and ecosystem expansion."
             nextConcept="How to Acquire $ROACH"
         />
-
-        {/* Provide clear buying instructions */}
+        {/* 9. Provide buying instructions - Defaults to full height */}
         <HowToBuy />
-         <SectionConnector
-            prevSection="How to Buy Guide"
-            summary="Simple steps to get $ROACH using Solana wallets and DEXs."
-            nextConcept="Community & Social Proof"
-        />
 
-        {/* Show community strength and testimonials */}
+         {/* Connector - Uses its own padding */}
+        <SectionConnector
+            prevSection="How to Buy Guide"
+            summary="Acquire $ROACH easily via Solana wallets and decentralized exchanges."
+            nextConcept="Community Strength & Social Proof"
+        />
+        {/* 10. Show community strength - Defaults to full height */}
         <SocialProof />
+
+         {/* Connector - Uses its own padding */}
         <SectionConnector
             prevSection="Community & Social Proof"
-            summary="A growing and active community supports $ROACH."
+            summary="Join a rapidly growing and active community supporting the $ROACH vision."
             nextConcept="Frequently Asked Questions"
         />
-
-        {/* Answer common questions */}
+        {/* 11. Answer common questions - Defaults to full height */}
         <FAQ />
 
       </main>
