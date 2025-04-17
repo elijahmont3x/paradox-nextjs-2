@@ -4,206 +4,153 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { CockroachMascot } from "@/components/ui/CockroachMascot"; // Import mascot for logo
+import { CockroachMascot } from "@/components/ui/CockroachMascot";
 import { cn } from "@/lib/utils";
-import { useMemeMode } from "@/hooks/use-meme-mode";
+// Using react-icons for potentially better brand recognition
 import { FaXTwitter, FaTelegram, FaDiscord } from "react-icons/fa6";
-import { toast } from "sonner";
-import { ExternalLink } from "lucide-react"; // For external links
+import { ExternalLink } from "lucide-react";
+
+// --- Define Footer Links (REPLACE '#' with actual URLs) ---
+const SOCIAL_LINKS = {
+    twitter: "#",
+    telegram: "#",
+    discord: "#",
+};
+const RESOURCE_LINKS = {
+    whitepaper: "#",
+    audit: "#", // Link to CertiK report page or PDF
+    contract: "https://solscan.io/token/ROACHaBXfk3N57vr1gDmQCkSp22d9Xv4V1f", // Example
+    lockedLiquidity: "#", // Link to PinkLock proof
+    buyJupiter: "https://jup.ag/swap/SOL-ROACHaBXfk3N57vr1gDmQCkSp22d9Xv4V1f", // Example
+    buyRaydium: "https://raydium.io/swap/?inputCurrency=sol&outputCurrency=ROACHaBXfk3N57vr1gDmQCkSp22d9Xv4V1f", // Example
+};
+const NAV_LINKS = [ // Mirror header for consistency
+    { name: "Concept", href: "#antifragile-edge" },
+    { name: "Mechanics", href: "#mechanics" },
+    { name: "Performance", href: "#market-scenarios" },
+    { name: "Tokenomics", href: "#tokenomics" },
+    { name: "Security", href: "#security" },
+    { name: "Roadmap", href: "#roadmap" },
+    { name: "FAQ", href: "#faq" },
+];
+// ------------------------------------------------------------
+
 
 export function Footer() {
-  const { memeMode } = useMemeMode();
+    // Removed useMemeMode hook and memeMode variable
+    // Removed handleSubscribe and newsletter form (often low engagement, adds complexity unless needed)
 
-  // Replace with actual links
-  const contractAddress = "ROACHaBXfk3N57vr1gDmQCkSp22d9Xv4V1f"; // REPLACE
-  const explorerLink = `https://solscan.io/token/${contractAddress}`; // Example Solscan link
-  const whitepaperLink = "#"; // Replace with actual path or URL
-  const auditLink = "#"; // Replace with actual path or URL
-  const twitterLink = "#";
-  const telegramLink = "#";
-  const discordLink = "#";
+    return (
+        <footer className="bg-muted/50 border-t mt-24 dark:bg-background/30"> {/* Adjusted bg */}
+            <div className="container mx-auto pt-12 pb-8 px-4 md:px-6"> {/* Reduced bottom padding */}
+                <div className="grid grid-cols-1 gap-10 md:grid-cols-6 lg:grid-cols-12"> {/* More granular grid */}
 
-  const handleSubscribe = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const emailInput = e.currentTarget.elements.namedItem(
-      "email"
-    ) as HTMLInputElement;
-    if (emailInput && emailInput.value) {
-      // Replace with actual subscription logic
-      console.log("Subscribing email:", emailInput.value);
-      toast.success(
-        `${memeMode ? "Intel acquired!" : "Subscribed!"} (Demo)`
-      );
-      e.currentTarget.reset();
-    } else {
-      toast.error("Please enter a valid email.");
-    }
-  };
+                    {/* Brand & Socials (Takes up more space) */}
+                    <div className="md:col-span-3 lg:col-span-4 space-y-4">
+                        <Link href="/" className="flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm w-fit">
+                            <CockroachMascot size="sm" />
+                            <span className="text-xl font-bold">$ROACH</span>
+                        </Link>
+                        <p className="text-sm text-muted-foreground max-w-xs">
+                           The antifragile SPL token engineered to gain strength from market volatility.
+                        </p>
+                         <div className="flex items-center gap-2 pt-1">
+                             <SocialLink href={SOCIAL_LINKS.twitter} icon={FaXTwitter} label="Follow $ROACH on X (Twitter)" />
+                             <SocialLink href={SOCIAL_LINKS.telegram} icon={FaTelegram} label="Join $ROACH Telegram" />
+                             <SocialLink href={SOCIAL_LINKS.discord} icon={FaDiscord} label="Join $ROACH Discord" />
+                         </div>
+                    </div>
 
-  return (
-    <footer className="bg-muted/50 border-t mt-24"> {/* Added more margin-top */}
-      <div className="container mx-auto py-12 px-4 md:px-6">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-4 lg:grid-cols-5"> {/* Adjusted grid for 5 columns */}
-          {/* Brand Info */}
-          <div className="space-y-4 lg:col-span-2"> {/* Brand takes more space */}
-            <Link href="/" className="flex items-center gap-2">
-              <CockroachMascot size="sm" />
-              <span
-                className={cn(
-                  "text-xl font-bold",
-                  memeMode && "font-mission"
-                )}
-              >
-                $ROACH
-              </span>
-            </Link>
-            <p className="text-sm text-muted-foreground max-w-xs">
-              {memeMode
-                ? "The token that eats FUD for breakfast. Built to survive anything."
-                : "The antifragile SPL token designed to thrive under market pressure on Solana."}
-            </p>
-            <div className="flex space-x-2">
-              <SocialLink href={twitterLink} icon={FaXTwitter} label="Twitter / X" />
-              <SocialLink href={telegramLink} icon={FaTelegram} label="Telegram" />
-              <SocialLink href={discordLink} icon={FaDiscord} label="Discord" />
+                    {/* Navigate Links */}
+                    <div className="md:col-span-3 lg:col-span-2 space-y-3">
+                        <h4 className="text-sm font-semibold uppercase tracking-wider text-foreground/90">Navigate</h4>
+                        <ul className="space-y-1.5 text-sm">
+                           {NAV_LINKS.map(link => (
+                               <li key={link.href}><FooterLink href={link.href}>{link.name}</FooterLink></li>
+                           ))}
+                        </ul>
+                    </div>
+
+                    {/* Resource Links */}
+                    <div className="md:col-span-3 lg:col-span-3 space-y-3">
+                        <h4 className="text-sm font-semibold uppercase tracking-wider text-foreground/90">Resources</h4>
+                        <ul className="space-y-1.5 text-sm">
+                            <li><FooterLink href={RESOURCE_LINKS.whitepaper} target="_blank">Whitepaper <ExternalLink className="inline h-3 w-3 ml-0.5 opacity-70" /></FooterLink></li>
+                            <li><FooterLink href={RESOURCE_LINKS.audit} target="_blank">Security Audit (CertiK) <ExternalLink className="inline h-3 w-3 ml-0.5 opacity-70" /></FooterLink></li>
+                            <li><FooterLink href={RESOURCE_LINKS.contract} target="_blank">Verified Contract <ExternalLink className="inline h-3 w-3 ml-0.5 opacity-70" /></FooterLink></li>
+                            <li><FooterLink href={RESOURCE_LINKS.lockedLiquidity} target="_blank">Liquidity Lock Proof <ExternalLink className="inline h-3 w-3 ml-0.5 opacity-70" /></FooterLink></li>
+                        </ul>
+                    </div>
+
+                    {/* Quick Buy Links */}
+                     <div className="md:col-span-3 lg:col-span-3 space-y-3">
+                        <h4 className="text-sm font-semibold uppercase tracking-wider text-foreground/90">Get $ROACH</h4>
+                         <ul className="space-y-2 text-sm">
+                           <li><FooterLink href={RESOURCE_LINKS.buyJupiter} target="_blank">Swap on Jupiter Aggregator <ExternalLink className="inline h-3 w-3 ml-0.5 opacity-70" /></FooterLink></li>
+                           <li><FooterLink href={RESOURCE_LINKS.buyRaydium} target="_blank">Swap on Raydium <ExternalLink className="inline h-3 w-3 ml-0.5 opacity-70" /></FooterLink></li>
+                           {/* Add link to HowToBuy Section */}
+                           <li><FooterLink href="#how-to-buy">View Buying Guide</FooterLink></li>
+                         </ul>
+                     </div>
+
+                </div>
+
+                <Separator className="my-8 bg-border/50" /> {/* Subtle separator */}
+
+                {/* Bottom Bar */}
+                <div className="flex flex-col items-center justify-between gap-4 text-xs text-muted-foreground md:flex-row">
+                    <p>© {new Date().getFullYear()} $ROACH. All rights reserved.</p>
+                    {/* Optionally add Terms/Privacy */}
+                    {/* <div className="flex gap-4">
+                      <FooterLink href="#">Terms of Service</FooterLink>
+                      <FooterLink href="#">Privacy Policy</FooterLink>
+                    </div> */}
+                </div>
+
+                {/* Disclaimer */}
+                <div className="mt-6 pt-6 border-t border-border/50">
+                    <p className="text-[0.7rem] leading-relaxed text-muted-foreground/80 text-center max-w-4xl mx-auto"> {/* Slightly smaller text */}
+                        <span className="font-semibold">Disclaimer:</span> Cryptocurrency investment carries significant risk. $ROACH is an experimental token leveraging novel antifragile mechanics; it should be considered highly speculative. Prices can fluctuate dramatically, and you may lose your entire investment. The information on this website is not financial advice. Always conduct thorough Due Diligence (DYOR) and consult with a qualified financial advisor before making any investment decisions. Understand the risks involved and never invest more than you can comfortably afford to lose. $ROACH makes no guarantee of profit or future value.
+                    </p>
+                </div>
             </div>
-          </div>
-
-          {/* Quick Links */}
-          <div className="space-y-3">
-            <h4 className="text-sm font-semibold uppercase tracking-wider">
-              Navigate
-            </h4>
-            <ul className="space-y-1.5 text-sm">
-              <li><FooterLink href="#problem-solution">Concept</FooterLink></li>
-              <li><FooterLink href="#mechanics">Mechanics</FooterLink></li>
-              <li><FooterLink href="#tokenomics">Tokenomics</FooterLink></li>
-              <li><FooterLink href="#roadmap">Roadmap</FooterLink></li>
-              <li><FooterLink href="#faq">FAQ</FooterLink></li>
-              <li><FooterLink href="#how-to-buy">How to Buy</FooterLink></li>
-            </ul>
-          </div>
-
-          {/* Resources */}
-          <div className="space-y-3">
-            <h4 className="text-sm font-semibold uppercase tracking-wider">
-              Resources
-            </h4>
-            <ul className="space-y-1.5 text-sm">
-              <li>
-                <FooterLink href={whitepaperLink} target="_blank">Whitepaper <ExternalLink className="inline h-3 w-3 ml-0.5" /></FooterLink>
-              </li>
-              <li>
-                <FooterLink href={auditLink} target="_blank">Audit <ExternalLink className="inline h-3 w-3 ml-0.5" /></FooterLink>
-              </li>
-              <li>
-                <FooterLink href={explorerLink} target="_blank">Contract <ExternalLink className="inline h-3 w-3 ml-0.5" /></FooterLink>
-              </li>
-               <li>
-                <FooterLink href="https://raydium.io/swap/?inputCurrency=sol&outputCurrency=ROACHaBXfk3N57vr1gDmQCkSp22d9Xv4V1f" target="_blank">Buy on Raydium <ExternalLink className="inline h-3 w-3 ml-0.5" /></FooterLink>
-              </li>
-               <li>
-                <FooterLink href="https://jup.ag/swap/SOL-ROACHaBXfk3N57vr1gDmQCkSp22d9Xv4V1f" target="_blank">Swap on Jupiter <ExternalLink className="inline h-3 w-3 ml-0.5" /></FooterLink>
-              </li>
-            </ul>
-          </div>
-
-          {/* Newsletter */}
-          <div className="space-y-3">
-            <h4 className="text-sm font-semibold uppercase tracking-wider">
-              {memeMode ? "Get Intel" : "Stay Updated"}
-            </h4>
-            <p className="text-sm text-muted-foreground">
-              {memeMode ? "Alpha drops, straight to your inbox." : "Subscribe for the latest $ROACH news and updates."}
-            </p>
-            <form onSubmit={handleSubscribe} className="flex gap-2">
-              <Input
-                type="email"
-                name="email"
-                placeholder="your.email@domain.com"
-                className="flex-1 text-xs h-9" // Smaller input
-                required
-                aria-label="Email for newsletter"
-              />
-              <Button type="submit" size="sm" className="h-9">
-                {memeMode ? "Sign Up" : "Subscribe"}
-              </Button>
-            </form>
-          </div>
-        </div>
-
-        <Separator className="my-8" />
-
-        {/* Bottom Bar */}
-        <div className="flex flex-col items-center justify-between gap-4 text-xs text-muted-foreground md:flex-row">
-          <p>© {new Date().getFullYear()} $ROACH Protocol. All rights reserved.</p>
-          {/* Optional links */}
-          {/* <div className="flex gap-4">
-            <FooterLink href="#">Terms</FooterLink>
-            <FooterLink href="#">Privacy</FooterLink>
-          </div> */}
-        </div>
-
-        {/* Disclaimer */}
-        <div className="mt-6 pt-6 border-t border-border/50">
-          <p className="text-xs text-muted-foreground/80 text-center max-w-3xl mx-auto">
-            <span className="font-semibold">Disclaimer:</span> Cryptocurrency
-            investment involves significant risk. $ROACH is an experimental token
-            with novel mechanics and should be considered highly speculative. Do
-            Your Own Research (DYOR) before investing. Nothing on this website
-            constitutes financial advice. The value of $ROACH can go down as
-            well as up. Never invest more than you can afford to lose.
-          </p>
-        </div>
-      </div>
-    </footer>
-  );
+        </footer>
+    );
 }
 
-// Helper component for footer links
+// Helper: FooterLink (Unchanged functionally)
 function FooterLink({ href, children, target }: { href: string; children: React.ReactNode, target?: string }) {
-  return (
-    <Link
-      href={href}
-      target={target}
-      rel={target === "_blank" ? "noopener noreferrer" : undefined}
-      className="hover:text-foreground transition-colors duration-200 inline-flex items-center"
-    >
-      {children}
-    </Link>
-  );
+    return (
+        <Link
+            href={href}
+            target={target}
+            rel={target === "_blank" ? "noopener noreferrer" : undefined}
+            className="text-muted-foreground hover:text-foreground hover:underline underline-offset-4 transition-colors duration-200 inline-flex items-center focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring rounded-sm"
+            aria-label={typeof children === 'string' ? children : undefined} // Basic aria-label for screen readers
+        >
+            {children}
+        </Link>
+    );
 }
 
-// Helper component for social links
-function SocialLink({
-  href,
-  icon: Icon,
-  label,
-}: {
-  href: string;
-  icon: React.ElementType;
-  label: string;
-}) {
-  return (
-    <Button
-      variant="outline" // Changed to outline for better visibility
-      size="icon"
-      className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-accent/50"
-      asChild
-    >
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={label}
-        title={label} // Added title for tooltip on hover
-      >
-        <Icon className="h-4 w-4" />
-      </a>
-    </Button>
-  );
+// Helper: SocialLink (Unchanged functionally)
+function SocialLink({ href, icon: Icon, label }: { href: string; icon: React.ElementType; label: string }) {
+    return (
+        <Button
+            variant="ghost" // Use ghost for less emphasis than outline
+            size="icon"
+            className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-accent/50 dark:hover:bg-accent/20 rounded-full" // Rounded for social icon feel
+            asChild
+        >
+            <a
+                href={href} target="_blank" rel="noopener noreferrer"
+                aria-label={label} title={label}
+            >
+                <Icon className="h-4 w-4" />
+            </a>
+        </Button>
+    );
 }
 
 // --- END OF FILE ./components/layout/Footer.tsx ---

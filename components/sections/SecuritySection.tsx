@@ -3,159 +3,156 @@
 "use client";
 
 import { Section } from "@/components/ui/Section";
-import { SectionHeader } from "@/components/ui/SectionHeader"; // Use SectionHeader
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Use Card components
+import { SectionHeader } from "@/components/ui/SectionHeader";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ShieldCheck, Lock, FileCode, Users, ExternalLink } from "lucide-react";
-import { useMemeMode } from "@/hooks/use-meme-mode";
+import { ShieldCheck, Lock, FileCode, Users, ExternalLink } from "lucide-react"; // Using consistent icons
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import Link from "next/link"; // Import Link for internal links
+import Link from "next/link";
 
 export function SecuritySection() {
-  const { memeMode } = useMemeMode();
+    // Removed useMemeMode
 
-  // Security Features data based on whitepaper and context
-  const securityFeatures = [
-    {
-      icon: ShieldCheck,
-      title: (memeMode: boolean) => memeMode ? "Audited & Approved" : "Audited Smart Contract",
-      description: (memeMode: boolean) => memeMode
-        ? "Survived the gauntlet of a CertiK audit. No critical bugs found. Basically un-hackable (probably)."
-        : "Comprehensive security audit completed by CertiK, verifying contract integrity and identifying zero critical or major vulnerabilities.",
-      status: "CertiK Passed",
-      link: "#", // REPLACE with actual link to audit report PDF or page
-      color: "green", // Updated color mapping
-    },
-    {
-      icon: Lock,
-      title: (memeMode: boolean) => memeMode ? "Liquidity Fortress Knox" : "Locked Liquidity Pool",
-      description: (memeMode: boolean) => memeMode
-        ? "LP tokens locked tight for 12 months via PinkLock. No rug pulls here, only MOON pulls."
-        : "Initial liquidity pool tokens are securely locked for 12 months using the PinkLock service, ensuring stability.",
-      status: "12-Month Lock",
-       link: "#", // REPLACE with actual link to PinkLock proof
-      color: "blue",
-    },
-    {
-      icon: FileCode,
-      title: (memeMode: boolean) => memeMode ? "No Magic Print Button" : "Fixed Supply & Verified Code",
-      description: (memeMode: boolean) => memeMode
-        ? "Can't print more $ROACH out of thin air. Supply is FIXED forever. What you see is what you get."
-        : "The contract has a fixed total supply with minting capabilities permanently disabled. Source code is verified on Solana explorers.",
-      status: "Verified on Solscan", // Example status
-       link: `https://solscan.io/token/ROACHaBXfk3N57vr1gDmQCkSp22d9Xv4V1f#verified-contract`, // REPLACE ADDR - Link to verified contract tab
-       color: "purple",
-    },
-     {
-      icon: Users,
-      title: (memeMode: boolean) => memeMode ? "Team Tokens on Lockdown" : "Transparent & Vested Team",
-      description: (memeMode: boolean) => memeMode
-        ? "Team tokens are vested over 6 months. We're strapped in for the long haul, building the colony, not dumping on you."
-        : "Team token allocation is subject to a 6-month linear vesting schedule, demonstrating long-term commitment and aligning incentives.",
-      status: "6-Month Vesting",
-       link: "#roadmap", // Link to roadmap section which might imply team commitment (or add a dedicated link later)
-       color: "amber", // Using amber/yellow
-    },
-  ];
+    // Refined Security Features data for clarity and unified tone
+    const securityFeatures = [
+        {
+            icon: ShieldCheck,
+            title: "Comprehensive Security Audit",
+            description: "Independently audited by CertiK, confirming contract integrity and identifying no critical or major vulnerabilities. Your security is paramount.",
+            status: "CertiK Passed",
+            link: "#", // REPLACE with actual link to audit report
+            color: "green",
+        },
+        {
+            icon: Lock,
+            title: "Locked Initial Liquidity",
+            description: "The initial liquidity pool (LP) tokens are verifiably locked for 12 months via PinkLock, preventing rug pulls and ensuring market stability.",
+            status: "12-Month Lock",
+            link: "#", // REPLACE with actual link to PinkLock proof
+            color: "blue",
+        },
+        {
+            icon: FileCode,
+            title: "Immutable Fixed Supply",
+            description: "A fixed total supply of 1 billion $ROACH with minting permanently disabled in the contract code. Ensures scarcity and prevents inflation.",
+            status: "Verified on Solscan",
+            link: `https://solscan.io/token/ROACHaBXfk3N57vr1gDmQCkSp22d9Xv4V1f#verified-contract`, // REPLACE ADDR - Link to verified contract
+            color: "purple",
+        },
+        {
+            icon: Users,
+            title: "Vested Team Allocation",
+            description: "Team tokens follow a strict 6-month linear vesting schedule, demonstrating long-term project commitment and aligning incentives with the community.",
+            status: "6-Month Linear Vesting",
+            link: "#roadmap", // Link to roadmap section
+            color: "amber",
+        },
+    ];
 
-  // Tailwind color mapping utility
-  const colorMap = {
-      green: { text: 'text-green-600', bg: 'bg-green-500/10', border: 'border-green-500/30', hoverBg: 'hover:bg-green-500/15' },
-      blue: { text: 'text-blue-600', bg: 'bg-blue-500/10', border: 'border-blue-500/30', hoverBg: 'hover:bg-blue-500/15' },
-      purple: { text: 'text-purple-600', bg: 'bg-purple-500/10', border: 'border-purple-500/30', hoverBg: 'hover:bg-purple-500/15' },
-      amber: { text: 'text-amber-600', bg: 'bg-amber-500/10', border: 'border-amber-500/30', hoverBg: 'hover:bg-amber-500/15' },
-  };
+    // Tailwind color mapping - Refined for better contrast/accessibility where needed
+    const colorMap = {
+        green: { text: 'text-green-700 dark:text-green-400', bg: 'bg-green-500/10 dark:bg-green-500/20', border: 'border-green-500/30 dark:border-green-500/40', hoverBg: 'hover:bg-green-500/20 dark:hover:bg-green-500/30' },
+        blue: { text: 'text-blue-700 dark:text-blue-400', bg: 'bg-blue-500/10 dark:bg-blue-500/20', border: 'border-blue-500/30 dark:border-blue-500/40', hoverBg: 'hover:bg-blue-500/20 dark:hover:bg-blue-500/30' },
+        purple: { text: 'text-purple-700 dark:text-purple-400', bg: 'bg-purple-500/10 dark:bg-purple-500/20', border: 'border-purple-500/30 dark:border-purple-500/40', hoverBg: 'hover:bg-purple-500/20 dark:hover:bg-purple-500/30' },
+        amber: { text: 'text-amber-700 dark:text-amber-400', bg: 'bg-amber-500/10 dark:bg-amber-500/20', border: 'border-amber-500/30 dark:border-amber-500/40', hoverBg: 'hover:bg-amber-500/20 dark:hover:bg-amber-500/30' },
+    };
 
-  // Animation Variants
-  const containerVariants = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.1 } }
-  };
+    // Animation Variants - Remain the same
+    const containerVariants = {
+        hidden: {},
+        visible: { transition: { staggerChildren: 0.1 } }
+    };
+    const itemVariants = {
+        hidden: { opacity: 0, scale: 0.95, y: 20 },
+        visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
+    };
 
-  const itemVariants = {
-    hidden: { opacity: 0, scale: 0.95, y: 20 },
-    visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
-  };
+    return (
+        <Section id="security" className="py-20 md:py-28 bg-gradient-to-b from-background to-muted/10"> {/* Adjusted background */}
+            <SectionHeader
+                title="Fortified Security & Trust" // Clearer Title
+                description="We prioritize a secure and trustworthy foundation for the $ROACH ecosystem. Key measures ensure transparency and protect holder interests." // Refined Description
+                subtitle={<><ShieldCheck className="inline h-4 w-4 mr-1" /> Foundational Safety</>}
+                alignment="center"
+                className="mb-16"
+            />
 
-  return (
-    <Section id="security" className="py-20 md:py-28 bg-gradient-to-b from-muted/30 via-muted/10 to-background"> {/* Subtle gradient */}
-      <SectionHeader
-        title={memeMode ? "Roach-Proof Security Fortress" : "Security & Trustworthiness"}
-        description={memeMode
-          ? "We built this thing tougher than a Nokia 3310 wrapped in cockroaches. Security isn't optional, it's survival."
-          : "Transparency and robust security measures are fundamental to $ROACH. We prioritize protecting our holders and ensuring ecosystem integrity."}
-        subtitle={<><ShieldCheck className="inline h-4 w-4 mr-1"/> Trust & Safety</>}
-        alignment="center"
-        className="mb-16"
-      />
-
-      <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto"
-      >
-        {securityFeatures.map((feature) => {
-            const colors = colorMap[feature.color as keyof typeof colorMap];
-            return (
             <motion.div
-                key={feature.status} // Use status or title as key
-                variants={itemVariants}
+                variants={containerVariants}
+                initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto"
             >
-                <Card className={cn(
-                    "h-full border shadow-md hover:shadow-lg transition-all duration-300 flex flex-col", // Ensure flex column
-                    colors.border,
-                    colors.hoverBg,
-                    memeMode && "border-dashed"
-                )}>
-                <CardContent className="p-6 flex-grow flex flex-col"> {/* Flex grow content */}
-                    <div className="flex items-start gap-4 mb-3">
-                    <div className={cn("p-2.5 rounded-full shrink-0 mt-1", colors.bg)}>
-                        <feature.icon className={cn("h-6 w-6", colors.text)} />
-                    </div>
-                    <div className="flex-1">
-                        <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-1 gap-y-1">
-                            <h3 className={cn("text-lg font-semibold leading-tight", memeMode && "font-mission")}>{feature.title(memeMode)}</h3>
-                            <Badge variant="secondary" className={cn(
-                                "w-fit text-xs px-2 py-0.5",
-                                colors.bg, colors.text, colors.border
-                            )}>
-                            {feature.status}
-                            </Badge>
-                        </div>
-                        <p className="text-sm text-muted-foreground mt-1">{feature.description(memeMode)}</p>
-                    </div>
-                    </div>
-                    {/* Action Button - Pushed to bottom */}
-                    <div className="mt-auto pt-3">
-                        <Button variant="link" size="sm" className={cn("p-0 h-auto text-xs font-medium group", colors.text)} asChild>
-                            <a href={feature.link} target={feature.link === "#roadmap" ? "_self" : "_blank"} rel="noopener noreferrer">
-                            {memeMode ? "Verify Intel" : "View Proof"}
-                            <ExternalLink className="h-3 w-3 ml-1 group-hover:translate-x-0.5 transition-transform duration-200" />
-                            </a>
-                        </Button>
-                    </div>
-                </CardContent>
-                </Card>
+                {securityFeatures.map((feature, index) => { // Added index for animation delay
+                    const colors = colorMap[feature.color as keyof typeof colorMap];
+                    return (
+                        <motion.div
+                            key={feature.title} // Use title as key
+                            variants={itemVariants}
+                            transition={{ delay: index * 0.05 }} // Add slight stagger delay
+                        >
+                             {/* Card now includes Link as a wrapper if link exists */}
+                            <Link
+                                href={feature.link}
+                                target={feature.link === "#roadmap" ? "_self" : "_blank"}
+                                rel="noopener noreferrer"
+                                className="block h-full group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg" // Make card itself linkable, improve focus state
+                            >
+                                <Card className={cn(
+                                    "h-full border shadow-md hover:shadow-lg transition-all duration-300 flex flex-col",
+                                    colors.border,
+                                    colors.hoverBg, // Using hover background color for interaction
+                                    "group-hover:border-primary/50" // Enhance border on hover of link wrapper
+                                )}>
+                                    <CardContent className="p-5 sm:p-6 flex-grow flex flex-col"> {/* Adjusted padding */}
+                                        <div className="flex items-start gap-4 mb-4">
+                                            <div className={cn("p-2 rounded-full shrink-0", colors.bg)}>
+                                                <feature.icon className={cn("h-5 w-5 sm:h-6 sm:w-6", colors.text)} />
+                                            </div>
+                                            <div className="flex-1">
+                                                <CardTitle className="text-base sm:text-lg font-semibold leading-tight mb-1">{feature.title}</CardTitle>
+                                                <Badge variant="secondary" size="sm" className={cn(
+                                                     "w-fit text-xs",
+                                                     colors.bg, colors.text, colors.border.replace('border-','border-')
+                                                )}>
+                                                    {feature.status}
+                                                 </Badge>
+                                            </div>
+                                        </div>
+                                        <p className="text-sm text-muted-foreground flex-grow mb-3">{feature.description}</p>
+                                        {/* Removed button, action is card click now */}
+                                         <div className="mt-auto pt-2 text-right text-xs font-medium flex items-center justify-end gap-1 group-hover:text-primary transition-colors duration-200"
+                                               aria-hidden="true">
+                                            {feature.link === "#roadmap" ? "View Details" : "Verify Proof"}
+                                             <ExternalLink className="h-3 w-3 " />
+                                         </div>
+                                    </CardContent>
+                                </Card>
+                             </Link>
+                        </motion.div>
+                    );
+                })}
             </motion.div>
-            );
-        })}
-      </motion.div>
-       <motion.div
-           initial={{ opacity: 0 }}
-           whileInView={{ opacity: 1 }}
-           transition={{ duration: 0.5, delay: 0.3 }} // Slight delay after cards
-           viewport={{ once: true }}
-           className="mt-12 text-center"
-        >
-         <p className="text-muted-foreground text-sm max-w-xl mx-auto">
-            {memeMode ? "Trust, but verify. Always DYOR, even on the unkillable. Links prove we ain't lying." : "Transparency is paramount. We encourage all users to verify these security measures independently using the provided links."}
-         </p>
-       </motion.div>
-    </Section>
-  );
+
+            <motion.div
+                initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.3 }} viewport={{ once: true }}
+                className="mt-12 text-center"
+            >
+                <p className="text-muted-foreground text-sm max-w-xl mx-auto">
+                   Transparency builds trust. We encourage you to independently verify these security claims using the provided links. Click any card above to view the corresponding proof.
+                </p>
+            </motion.div>
+             {/* Optional Placeholder for Visual */}
+            {/* <motion.div
+                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2, delay: 0.2 }}
+                 className="mt-10 max-w-md mx-auto bg-gradient-to-tr from-green-500/10 via-blue-500/10 to-purple-500/10 p-4 rounded-lg border border-border/10 aspect-video flex items-center justify-center">
+                 <p className="text-xs text-muted-foreground/80 italic text-center p-2">
+                   AI Prompt: A composite image or illustration showing interconnected shield icons (for audit), lock icons (for LP), file/code icons (for supply), and group/user icons (for team vesting), visually representing layers of security. Clean, tech-inspired aesthetic using site's theme colors.
+                 </p>
+             </motion.div> */}
+        </Section>
+    );
 }
+
 // --- END OF FILE ./components/sections/SecuritySection.tsx ---

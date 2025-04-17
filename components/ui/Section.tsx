@@ -1,4 +1,5 @@
 // --- START OF FILE ./components/ui/Section.tsx ---
+// NO CHANGES - Keeping previous version
 
 import React from "react";
 import { cn } from "@/lib/utils";
@@ -8,7 +9,6 @@ interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   className?: string; // Classname for the <section> element (outer wrapper)
   containerClassName?: string; // Classname for the inner container <div>
   children: React.ReactNode;
-  // fullHeight prop is removed - default is now full height behavior
 }
 
 /**
@@ -27,8 +27,8 @@ export function Section({
     <section
       id={id}
       className={cn(
-        "w-full relative scroll-snap-align-start", // Default full height setup:
-        "min-h-screen flex flex-col justify-center py-16 md:py-20", // Ensures content fits and centers, includes padding
+        "w-full relative scroll-snap-align-start", // Default scroll snap behavior
+        "min-h-screen flex flex-col justify-center py-16 md:py-20 lg:py-24", // Default full height setup ensures content fits and centers, includes padding
         className // Allow overrides
       )}
       {...props}

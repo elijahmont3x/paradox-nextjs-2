@@ -4,29 +4,28 @@
 
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Using Card for the main container
+import { Card, CardContent } from "@/components/ui/card"; // Keep Card wrapper for consistency
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useMemeMode } from "@/hooks/use-meme-mode";
 import { cn } from "@/lib/utils";
-import { TrendingDown, Shield, TrendingUp, ShieldX, ShieldCheck, Zap, HelpCircle, BookOpen, AlertTriangle } from "lucide-react"; // More specific icons
+import { TrendingDown, Shield, TrendingUp, ShieldX, ShieldCheck, Zap, BookOpen, Activity, CheckCircle, AlertTriangle } from "lucide-react"; // Refined icon set
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Badge } from "@/components/ui/badge"; // For highlighting points
+import { Badge } from "@/components/ui/badge";
 
 export function TheAntifragileEdge() {
-  const { memeMode } = useMemeMode();
+    // Removed useMemeMode and memeMode variable
 
   return (
-    <Section id="problem-solution" className="py-20 md:py-28 bg-gradient-to-b from-background via-muted/10 to-background"> {/* Renamed ID for clarity */}
+    <Section
+      id="antifragile-edge" // Using a slightly more descriptive ID
+      className="py-20 md:py-28 bg-gradient-to-b from-background via-muted/10 to-background"
+    >
       <SectionHeader
-        // Title directly states the core concept comparison
-        title={memeMode ? "Glass vs Turtle vs ROACH" : "Beyond Resilience: The Antifragile Edge"}
-        description={memeMode
-            ? "Most tokens shatter or just survive. $ROACH gets *stronger* from the chaos. Learn the difference."
-            : "Understanding the spectrum from fragile to antifragile reveals why $ROACH's design offers a fundamental advantage in volatile markets."
-        }
-        // Subtitle sets the theoretical context
-        subtitle={<><BookOpen className="inline h-4 w-4 mr-1"/> Inspired by Taleb</>}
+        // Clearer title focusing on the key advantage
+        title="Beyond Survival: The Antifragile Advantage"
+        description="Typical crypto tokens break (fragile) or merely withstand (resilient) market stress. $ROACH is built differently – it's designed to gain strength from volatility."
+        // Subtitle connecting to the conceptual origin
+        subtitle={<><BookOpen className="inline h-4 w-4 mr-1"/> Antifragility Explained</>}
         alignment="center"
         className="mb-16"
       />
@@ -36,106 +35,122 @@ export function TheAntifragileEdge() {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
         viewport={{ once: true, amount: 0.2 }}
-        className="max-w-5xl mx-auto" // Wider container
+        className="max-w-5xl mx-auto" // Container for the card/tabs
       >
-        {/* Using a Card to frame the Tabs component */}
-        <Card className="shadow-xl overflow-hidden border-2 border-border/10">
-          <CardContent className="p-0">
+        <Card className="shadow-xl overflow-hidden border border-border/10">
+          <CardContent className="p-0"> {/* Remove CardContent padding, handled by tabs */}
             <Tabs defaultValue="antifragile" className="w-full">
               <TabsList className="grid w-full grid-cols-3 rounded-t-lg rounded-b-none p-1 h-auto bg-muted gap-1">
-                 {/* Tab Triggers with enhanced styling */}
+                 {/* Fragile Tab Trigger */}
                  <TabsTrigger
                   value="fragile"
                   className={cn(
                     "py-3 data-[state=active]:shadow-inner text-xs sm:text-sm flex-col sm:flex-row h-auto gap-1.5 sm:gap-2 font-medium",
-                     "data-[state=active]:bg-destructive/10 data-[state=active]:text-destructive data-[state=active]:font-semibold", // Destructive theme
-                     "hover:bg-destructive/5 hover:text-destructive/90 transition-colors duration-200",
-                    memeMode && "font-mission tracking-wide"
+                    "data-[state=active]:bg-destructive/10 data-[state=active]:text-destructive data-[state=active]:font-semibold", // Destructive theme
+                    "hover:bg-destructive/5 hover:text-destructive/90 transition-colors duration-200",
+                    "focus-visible:ring-destructive/50" // Adjust focus ring color
                   )}
                 >
                   <ShieldX className="h-4 w-4 shrink-0" /> Fragile
                 </TabsTrigger>
+
+                {/* Resilient Tab Trigger */}
                  <TabsTrigger
                   value="resilient"
                   className={cn(
                     "py-3 data-[state=active]:shadow-inner text-xs sm:text-sm flex-col sm:flex-row h-auto gap-1.5 sm:gap-2 font-medium",
-                     "data-[state=active]:bg-amber-500/10 data-[state=active]:text-amber-600 data-[state=active]:font-semibold", // Amber/Yellow theme
+                     "data-[state=active]:bg-amber-500/10 data-[state=active]:text-amber-600 data-[state=active]:font-semibold", // Amber theme
                      "hover:bg-amber-500/5 hover:text-amber-600/90 transition-colors duration-200",
-                    memeMode && "font-mission tracking-wide"
+                     "focus-visible:ring-amber-500/50"
                   )}
                 >
                   <ShieldCheck className="h-4 w-4 shrink-0" /> Resilient
                 </TabsTrigger>
+
+                {/* Antifragile Tab Trigger ($ROACH focus) */}
                  <TabsTrigger
                   value="antifragile"
                   className={cn(
                     "py-3 data-[state=active]:shadow-inner text-xs sm:text-sm flex-col sm:flex-row h-auto gap-1.5 sm:gap-2 font-medium",
                     "data-[state=active]:bg-primary/10 data-[state=active]:text-primary data-[state=active]:font-semibold", // Primary theme
                     "hover:bg-primary/5 hover:text-primary/90 transition-colors duration-200",
-                    memeMode && "font-mission tracking-wide"
+                    "focus-visible:ring-primary/50"
                   )}
                 >
-                  <Zap className="h-4 w-4 shrink-0" /> Antifragile <span className={cn(!memeMode && "hidden")}>($ROACH)</span>
+                  <Zap className="h-4 w-4 shrink-0" /> Antifragile ($ROACH)
                 </TabsTrigger>
               </TabsList>
 
-              {/* Content Area with Animation */}
-              <div className="p-6 md:p-8 min-h-[450px] flex items-center justify-center bg-gradient-to-br from-card to-muted/20">
+              {/* Tab Content Area */}
+              <div className="p-6 md:p-8 min-h-[500px] flex items-center justify-center bg-gradient-to-br from-card to-muted/10"> {/* Adjusted padding and background */}
                 <AnimatePresence mode="wait">
+                  {/* Fragile Content */}
                   <TabsContent key="fragile" value="fragile" className="w-full">
                     <ConceptContent
-                      icon={<ShieldX className="h-16 w-16 text-destructive mx-auto mb-5 animate-pulse" />} // Pulsing icon
-                      title={memeMode ? "Glass Jaw Crew" : "Fragile Systems"}
+                      icon={<AlertTriangle className="h-16 w-16 text-destructive mx-auto mb-5 opacity-80" />}
+                      title="Fragile Systems"
                       colorTheme="destructive"
-                      definition={memeMode
-                        ? "These things HATE chaos. One wrong move, one angry whale, one bad tweet = INSTANT SHATTER."
-                        : "Systems or entities that are harmed or broken by volatility, randomness, errors, and stressors. They require predictability to function or survive."}
+                      summary="Break Under Pressure"
+                      definition="Cannot withstand volatility or unexpected shocks. Require stable environments to survive and function."
                       characteristics={[
-                        "Weakened by shocks",
-                        "Fear volatility",
-                        "Require stable conditions",
-                        "Prone to sudden collapse",
+                        "Degrades with stress",
+                        "Fears volatility",
+                        "Needs predictability",
+                        "Vulnerable to failure",
                       ]}
-                      cryptoExample={memeMode ? "99% of pump.fun launches, shitcoins with zero utility." : "Tokens with no economic model beyond hype, highly leveraged positions, un-audited contracts."}
-                      analogy={memeMode ? '"It looked bullish bro... *rugpull sound*"' : '"What doesn\'t kill me... delivers the final blow."'}
+                      cryptoExample="Tokens without robust mechanics, leveraged positions without risk management, poorly secured protocols."
+                      responseToStress={{
+                         label: "Impacted Negatively",
+                         icon: TrendingDown
+                       }}
+                       // Visual Placeholder Suggestion
+                       visualPrompt="AI Prompt: Simple line graph showing a stable line that sharply drops and breaks upon encountering a 'stress event' zone. Use red."
                     />
                   </TabsContent>
 
-                  <TabsContent key="resilient" value="resilient" className="w-full">
+                   {/* Resilient Content */}
+                   <TabsContent key="resilient" value="resilient" className="w-full">
                      <ConceptContent
-                      icon={<ShieldCheck className="h-16 w-16 text-amber-500 mx-auto mb-5" />}
-                      title={memeMode ? "Tough Turtles (Still Boring)" : "Resilient Systems"}
+                      icon={<ShieldCheck className="h-16 w-16 text-amber-500 mx-auto mb-5 opacity-80" />}
+                      title="Resilient Systems"
                       colorTheme="amber"
-                      definition={memeMode
-                        ? "Takes a punch, doesn't die. Great. But it doesn't LEARN. Doesn't GET STRONGER. Just... endures. Yawn."
-                        : "Systems that resist shocks and stressors, aiming to return to their original state after disruption. They endure volatility but do not benefit from it."}
+                      summary="Withstand & Recover"
+                      definition="Resist shocks and aim to return to their original state after disturbance. They endure stress but do not improve from it."
                       characteristics={[
-                        "Withstands shocks",
+                        "Tolerates shocks",
                         "Returns to baseline",
-                        "Doesn't improve from stress",
-                        "Often relies on static defenses",
+                        "Unaffected by stress long-term",
+                        "Focuses on stability",
                       ]}
-                      cryptoExample={memeMode ? "Your average 'safe' coin that still bleeds in a dump, tokens with basic locked LP." : "Tokens with static buyback mechanisms, fixed tax rates, or protocols focused solely on maintaining a peg."}
-                      analogy={memeMode ? '"Survived another dump... cool. Now back to crabbing."' : '"What doesn\'t kill me... leaves me exactly the same."'}
+                      cryptoExample="Basic tokens with locked LP, stablecoins maintaining their peg, protocols with static defense mechanisms (e.g., fixed buyback rate)."
+                       responseToStress={{
+                         label: "Returns to Normal",
+                         icon: Activity // Represents returning to baseline activity
+                       }}
+                        visualPrompt="AI Prompt: Simple line graph showing a stable line that dips upon encountering a 'stress event' zone but recovers back to the original level afterwards. Use amber/yellow."
                     />
                   </TabsContent>
 
+                  {/* Antifragile Content */}
                   <TabsContent key="antifragile" value="antifragile" className="w-full">
                      <ConceptContent
-                      icon={<Zap className="h-16 w-16 text-primary mx-auto mb-5 animate-bounce" />} // Bouncing icon for energy
-                      title={memeMode ? "$ROACH - Apex Predator Mode" : "Antifragile Systems ($ROACH)"}
+                      icon={<Zap className="h-16 w-16 text-primary mx-auto mb-5 opacity-80 animate-pulse" />} // Subtle pulse for energy
+                      title="Antifragile Systems ($ROACH)"
                       colorTheme="primary"
-                      definition={memeMode
-                        ? "This is the ROACH way. It FEASTS on chaos, FUD, and panic. Stress isn't a threat, it's ROCKET FUEL. Gets stronger."
-                        : "Systems that gain strength, capability, and robustness from volatility, randomness, errors, and stressors. They benefit and improve when exposed to disorder. This is the principle behind $ROACH."}
+                      summary="Strengthen from Stress"
+                      definition="$ROACH's Core: These systems **benefit** from shocks, volatility, and disorder. They don't just survive stress – they use it to improve."
                       characteristics={[
-                        "Benefits from shocks",
-                        "Improves with volatility",
-                        "Loves randomness & stress",
-                        "$ROACH's Dynamic System", // Explicitly link
+                        "Gains from volatility",
+                        "Improves with stressors",
+                        "Leverages disorder",
+                        "$ROACH Dynamic Tiers",
                       ]}
-                      cryptoExample={memeMode ? "THIS TOKEN! Dynamic taxes go BRRR, reflections EXPLODE when FUD hits." : "$ROACH's adaptive 5-tier tax and reflection system designed to harness market pressure."}
-                      analogy={memeMode ? '"FUD? DUMP? Bring it ON! More FOOD!"' : '"What doesn\'t kill me makes me stronger." - Literally.'}
+                      cryptoExample="$ROACH's adaptive 5-tier system automatically converts sell pressure into holder rewards & system fortification."
+                       responseToStress={{
+                         label: "Improves & Strengthens",
+                         icon: TrendingUp // Clear indication of positive gain
+                       }}
+                        visualPrompt="AI Prompt: Simple line graph showing a stable line that dips upon encountering a 'stress event' zone but then rises *above* its original level afterwards, showing improvement. Use primary/green."
                     />
                   </TabsContent>
                  </AnimatePresence>
@@ -145,7 +160,7 @@ export function TheAntifragileEdge() {
         </Card>
       </motion.div>
 
-       {/* Academic Reference */}
+       {/* Link to Academic Origin */}
        <motion.div
          initial={{ opacity: 0 }}
          whileInView={{ opacity: 1 }}
@@ -154,107 +169,99 @@ export function TheAntifragileEdge() {
          className="mt-10 text-center max-w-2xl mx-auto text-sm text-muted-foreground"
         >
          <BookOpen className="inline-block h-4 w-4 mr-1.5 align-[-2px]"/>
-         Antifragility concept defined by <Link href="https://en.wikipedia.org/wiki/Antifragility" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">Nassim Nicholas Taleb</Link>. $ROACH applies this powerful idea to crypto tokenomics.
+         Antifragility concept from Nassim Nicholas Taleb's <Link href="https://en.wikipedia.org/wiki/Antifragility" target="_blank" rel="noopener noreferrer" className="font-medium text-primary hover:underline">influential work</Link>. $ROACH applies this powerful idea to tokenomics.
        </motion.div>
     </Section>
   );
 }
 
-// --- ConceptContent Sub-Component ---
+// --- Refined ConceptContent Sub-Component ---
 interface ConceptContentProps {
   icon: React.ReactNode;
   title: string;
+  summary: string; // Added short summary
   definition: string;
   characteristics: string[];
   cryptoExample: string;
-  analogy: string;
+  responseToStress: { label: string; icon: React.ElementType }; // Added specific response field
   colorTheme: 'destructive' | 'amber' | 'primary';
+  visualPrompt?: string; // Optional prompt for a diagram
 }
 
-function ConceptContent({ icon, title, definition, characteristics, cryptoExample, analogy, colorTheme }: ConceptContentProps) {
-  const { memeMode } = useMemeMode();
+function ConceptContent({ icon, title, summary, definition, characteristics, cryptoExample, responseToStress, colorTheme, visualPrompt }: ConceptContentProps) {
 
-  // Mapping theme names to Tailwind classes
   const themes = {
-    destructive: {
-      text: "text-destructive",
-      border: "border-destructive/50",
-      bg: "bg-destructive/5",
-      iconAccent: "text-destructive-foreground", // For text inside icon if needed
-      badgeBorder: "border-destructive/20",
-      badgeText: "text-destructive",
-      badgeBg: "bg-destructive/10",
-      alertIcon: AlertTriangle, // Use Alert for Fragile
-    },
-    amber: { // Using Amber for Resilient
-      text: "text-amber-600",
-      border: "border-amber-500/50",
-      bg: "bg-amber-500/5",
-      iconAccent: "text-amber-700",
-      badgeBorder: "border-amber-500/20",
-      badgeText: "text-amber-600",
-      badgeBg: "bg-amber-500/10",
-      alertIcon: ShieldCheck, // ShieldCheck implies survival
-    },
-    primary: {
-      text: "text-primary",
-      border: "border-primary/50",
-      bg: "bg-primary/5",
-      iconAccent: "text-primary-foreground",
-      badgeBorder: "border-primary/20",
-      badgeText: "text-primary",
-      badgeBg: "bg-primary/10",
-      alertIcon: Zap, // Zap implies energy/gain
-    },
+    destructive: { text: "text-destructive", border: "border-destructive/50", bg: "bg-destructive/5", icon: ShieldX, iconColor: "text-destructive", responseBadge: "bg-destructive/10 text-destructive border-destructive/20" },
+    amber: { text: "text-amber-600", border: "border-amber-500/50", bg: "bg-amber-500/5", icon: ShieldCheck, iconColor: "text-amber-500", responseBadge: "bg-amber-500/10 text-amber-600 border-amber-500/20" },
+    primary: { text: "text-primary", border: "border-primary/50", bg: "bg-primary/5", icon: Zap, iconColor: "text-primary", responseBadge: "bg-primary/10 text-primary border-primary/20" },
   };
   const theme = themes[colorTheme];
-  const AlertIcon = theme.alertIcon;
+  const TraitIcon = theme.icon; // Icon for characteristics list
+  const ResponseIcon = responseToStress.icon;
+
+  const contentVariants = {
+      initial: { opacity: 0, y: 15 },
+      animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+      exit: { opacity: 0, y: -15, transition: { duration: 0.2, ease: 'easeIn' } }
+  };
 
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.98 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.98 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
-      className="text-center flex flex-col items-center w-full max-w-2xl mx-auto" // Ensure content takes width
+      variants={contentVariants} // Use variants here
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      className="text-center flex flex-col items-center w-full max-w-3xl mx-auto" // Wider max-width
     >
       {icon}
-      <h3 className={cn("text-3xl font-bold mb-4", theme.text, memeMode && "font-mission")}>{title}</h3>
-      <p className={cn("text-base md:text-lg text-muted-foreground mb-6 leading-relaxed")}>{definition}</p>
+      <h3 className={cn("text-3xl font-bold mb-2", theme.text)}>{title}</h3>
+      {/* Summary Badge */}
+       <Badge variant="secondary" className={cn("mb-4 text-sm font-medium", theme.responseBadge)}>
+          Key Idea: {summary}
+       </Badge>
 
-      {/* Grid for characteristics and example */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-6">
-        {/* Characteristics */}
-        <div className={cn("text-left p-4 rounded-lg border", theme.border, theme.bg)}>
-          <h4 className="font-semibold text-sm uppercase text-muted-foreground mb-2">Key Traits:</h4>
-          <ul className="space-y-1">
+      <p className={cn("text-base text-muted-foreground mb-8 leading-relaxed")}>{definition}</p>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-8">
+        {/* Characteristics List */}
+        <div className={cn("text-left p-4 rounded-lg border h-full", theme.border, theme.bg)}>
+          <h4 className="font-semibold text-sm uppercase text-muted-foreground mb-3">Characteristics:</h4>
+          <ul className="space-y-1.5">
             {characteristics.map((char, i) => (
               <li key={i} className="flex items-center gap-2 text-sm text-foreground/90">
-                <AlertIcon className={cn("h-3.5 w-3.5 shrink-0", theme.text)} />
+                <TraitIcon className={cn("h-4 w-4 shrink-0", theme.iconColor)} />
                 {char}
               </li>
             ))}
           </ul>
         </div>
 
-         {/* Crypto Example */}
-         <div className={cn("text-left p-4 rounded-lg border", theme.border, theme.bg)}>
-            <h4 className="font-semibold text-sm uppercase text-muted-foreground mb-2">Crypto Parallel:</h4>
-             <p className="text-sm text-foreground/90">{cryptoExample}</p>
+         {/* Response to Stress & Crypto Example (Combined for better flow) */}
+         <div className={cn("text-left p-4 rounded-lg border h-full flex flex-col", theme.border, theme.bg)}>
+             <div>
+                <h4 className="font-semibold text-sm uppercase text-muted-foreground mb-2">Typical Response to Stress:</h4>
+                <Badge variant="outline" className={cn("inline-flex items-center gap-1.5 mb-3", theme.responseBadge)}>
+                    <ResponseIcon className="h-3.5 w-3.5"/> {responseToStress.label}
+                </Badge>
+                <h4 className="font-semibold text-sm uppercase text-muted-foreground mb-2 pt-2 border-t border-border/30">Crypto Parallel:</h4>
+                <p className="text-sm text-foreground/90">{cryptoExample}</p>
+             </div>
+
+             {/* Placeholder for Optional Visual */}
+             {visualPrompt && (
+                 <div className={cn("mt-auto pt-4 border-t border-border/30", colorTheme === 'destructive' ? 'border-destructive/10' : colorTheme === 'amber' ? 'border-amber-500/10' : 'border-primary/10' )}>
+                    <div className="aspect-video bg-muted/50 rounded border border-dashed flex items-center justify-center p-2">
+                      <p className="text-xs text-muted-foreground/80 italic text-center">{visualPrompt}</p>
+                    </div>
+                 </div>
+            )}
          </div>
       </div>
 
-      {/* Analogy */}
-      <Badge variant="outline" className={cn(
-          "p-3 px-5 rounded-lg border text-base italic font-medium w-full", // Ensure badge takes full width
-          theme.badgeBorder, theme.badgeBg, theme.badgeText
-        )}>
-        {analogy}
-      </Badge>
+
     </motion.div>
   );
 }
-
 
 // --- END OF FILE ./components/sections/TheAntifragileEdge.tsx ---
