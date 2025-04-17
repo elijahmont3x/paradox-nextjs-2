@@ -1,0 +1,189 @@
+/* Import Tailwind CSS */
+@import "tailwindcss";
+
+/* Define theme configuration using @theme for base properties */
+@theme {
+  /* Base Configuration - Define the "default" (light mode) theme here */
+  --color-background: oklch(1 0 0);
+  --color-foreground: oklch(0.145 0 0);
+  --color-card: oklch(1 0 0);
+  --color-card-foreground: oklch(0.145 0 0);
+  --color-popover: oklch(1 0 0);
+  --color-popover-foreground: oklch(0.145 0 0);
+  --color-primary: oklch(0.205 0 0);
+  --color-primary-foreground: oklch(0.985 0 0);
+  --color-secondary: oklch(0.97 0 0);
+  --color-secondary-foreground: oklch(0.205 0 0);
+  --color-muted: oklch(0.97 0 0);
+  --color-muted-foreground: oklch(0.556 0 0);
+  --color-accent: oklch(0.97 0 0);
+  --color-accent-foreground: oklch(0.205 0 0);
+  --color-destructive: oklch(0.577 0.245 27.325);
+  --color-destructive-foreground: oklch(0.985 0 0);
+  --color-border: oklch(0.922 0 0);
+  --color-input: oklch(0.922 0 0);
+  /* Define ring with 50% alpha directly using oklch syntax */
+  --color-ring: oklch(0.708 0 0 / 0.5); /* Ring focus color with 50% alpha */
+
+  /* Fonts */
+  --font-sans: "Inter", sans-serif;
+  --font-mission: "MissionFont", sans-serif;
+
+  /* Radii */
+  --radius: 0.5rem;
+
+  /* Keyframes */
+  @keyframes accordion-down {
+    from { height: 0px; }
+    to { height: var(--radix-accordion-content-height); }
+  }
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0px; }
+  }
+
+  /* Animations */
+  --animation-accordion-down: accordion-down 0.2s ease-out;
+  --animation-accordion-up: accordion-up 0.2s ease-out;
+}
+
+/* Define Dark Mode Overrides *OUTSIDE* @theme */
+.dark {
+  --color-background: oklch(0.145 0 0);
+  --color-foreground: oklch(0.985 0 0);
+  --color-card: oklch(0.205 0 0);
+  --color-card-foreground: oklch(0.985 0 0);
+  --color-popover: oklch(0.205 0 0);
+  --color-popover-foreground: oklch(0.985 0 0);
+  --color-primary: oklch(0.922 0 0);
+  --color-primary-foreground: oklch(0.205 0 0);
+  --color-secondary: oklch(0.269 0 0);
+  --color-secondary-foreground: oklch(0.985 0 0);
+  --color-muted: oklch(0.269 0 0);
+  --color-muted-foreground: oklch(0.708 0 0);
+  --color-accent: oklch(0.269 0 0);
+  --color-accent-foreground: oklch(0.985 0 0);
+  --color-destructive: oklch(0.704 0.191 22.216);
+  --color-destructive-foreground: oklch(0.985 0 0);
+  --color-border: oklch(1 0 0 / 10%);
+  --color-input: oklch(1 0 0 / 15%);
+  /* Define dark mode ring with 50% alpha */
+  --color-ring: oklch(0.556 0 0 / 0.5); /* Dark mode ring focus color with 50% alpha */
+}
+
+/* Base Styles */
+* {
+  border-color: var(--color-border);
+  box-sizing: border-box;
+  /* Use the --color-ring variable directly now */
+  outline-color: var(--color-ring);
+}
+
+/* Enable smooth scrolling with section snapping */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 0.5em;
+  font-weight: 600;
+}
+
+/* Make sections act like pages in a book */
+section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* Shadcn UI Variable Mapping */
+:root {
+  --background: var(--color-background);
+  --foreground: var(--color-foreground);
+  --card: var(--color-card);
+  --card-foreground: var(--color-card-foreground);
+  --popover: var(--color-popover);
+  --popover-foreground: var(--color-popover-foreground);
+  --primary: var(--color-primary);
+  --primary-foreground: var(--color-primary-foreground);
+  --secondary: var(--color-secondary);
+  --secondary-foreground: var(--color-secondary-foreground);
+  --muted: var(--color-muted);
+  --muted-foreground: var(--color-muted-foreground);
+  --accent: var(--color-accent);
+  --accent-foreground: var(--color-accent-foreground);
+  --destructive: var(--color-destructive);
+  --destructive-foreground: var(--color-destructive-foreground);
+  --border: var(--color-border);
+  --input: var(--color-input);
+  /* Map the --ring variable directly from --color-ring */
+  --ring: var(--color-ring);
+  --radius: var(--radius);
+}
+
+/* Define custom fonts */
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter-variable.woff2') format('woff2 supports variations'),
+       url('/fonts/inter-variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MissionFont';
+  src: url('/fonts/rajdhani-medium.woff2') format('woff2'); /* Replace if needed */
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Meme Mode Styles */
+.font-mission {
+  font-family: var(--font-mission);
+  letter-spacing: 0.02em;
+}
+
+.meme-mode {
+  /* Apply MissionFont to headings */
+  h1, h2, h3, .section-title, .card-title {
+    font-family: var(--font-mission);
+    letter-spacing: 0.01em;
+  }
+
+  /* Apply subtle effects */
+  .card {
+     /* Define dashed border with alpha */
+     border: 1px dashed oklch(from var(--color-border) l c h / 0.5);
+     transform: rotate(-0.2deg);
+  }
+
+  button:not([data-variant="ghost"]):not([data-variant="link"]) {
+     font-family: var(--font-mission);
+     letter-spacing: 0.02em;
+  }
+
+  .badge {
+     transform: rotate(-1deg);
+     font-family: var(--font-mission);
+  }
+}
+
+/* Mode transition effect */
+h1, h2, h3, .card, button, .badge {
+  transition: all 0.3s ease-in-out;
+}
