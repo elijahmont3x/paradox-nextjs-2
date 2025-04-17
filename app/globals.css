@@ -3,135 +3,121 @@
 /* Import Tailwind CSS */
 @import "tailwindcss";
 
-/* Define theme configuration using @theme for base properties */
+/* Define theme configuration using @theme */
 @theme {
-  /* Base Configuration (Light Mode Defaults) using OKLCH for modern colors */
-  /* Reference: Use OKLCH values consistent with Shadcn stone preset if desired, or customize */
-  /* Example values (adjust to match your desired light theme aesthetics) */
-  --color-background: oklch(1 0 0); /* White */
-  --color-foreground: oklch(0.18 0.01 250); /* Dark Gray/Blueish */
-  --color-card: oklch(1 0 0); /* White */
-  --color-card-foreground: oklch(0.18 0.01 250); /* Dark Gray/Blueish */
-  --color-popover: oklch(1 0 0); /* White */
-  --color-popover-foreground: oklch(0.18 0.01 250); /* Dark Gray/Blueish */
-  --color-primary: oklch(0.6 0.18 255); /* Primary Blue/Purple */
-  --color-primary-foreground: oklch(1 0 0); /* White text on primary */
-  --color-secondary: oklch(0.97 0.01 250); /* Very Light Gray/Blue */
-  --color-secondary-foreground: oklch(0.3 0.01 250); /* Mid Gray/Blue */
-  --color-muted: oklch(0.95 0.01 250); /* Light Gray/Blue */
-  --color-muted-foreground: oklch(0.55 0.01 250); /* Gray */
-  --color-accent: oklch(0.97 0.01 250); /* Very Light Gray/Blue (can be same as secondary or muted) */
-  --color-accent-foreground: oklch(0.3 0.01 250); /* Mid Gray/Blue */
-  --color-destructive: oklch(0.65 0.2 15); /* Red */
-  --color-destructive-foreground: oklch(1 0 0); /* White text on destructive */
-  --color-border: oklch(0.9 0.01 250 / 0.8); /* Light Gray/Blue Border with alpha */
-  --color-input: oklch(0.9 0.01 250 / 0.7); /* Lighter Gray/Blue Input with alpha */
-  --color-ring: oklch(0.6 0.18 255 / 0.5); /* Primary color with alpha for focus ring */
+  /* Base Configuration (DARK MODE = Default) using OKLCH */
+  --color-background: oklch(0.12 0.01 250);      /* Very Dark Desaturated Blue */
+  --color-foreground: oklch(0.95 0.005 250);     /* Light Gray */
+  --color-card: oklch(0.15 0.01 250);           /* Slightly Lighter Dark */
+  --color-card-foreground: oklch(0.95 0.005 250);  /* Light Gray */
+  --color-popover: oklch(0.17 0.01 250);         /* Darker Popover Background */
+  --color-popover-foreground: oklch(0.97 0.005 250); /* Lighter Popover Text */
 
-  /* Fonts - Assuming Inter variable font is still desired */
-  --font-sans: "Inter", system-ui, sans-serif;
-  /* REMOVED --font-mission */
+  /* Roach Resilience Primary: Vibrant Green */
+  --color-primary: oklch(0.75 0.2 150);         /* Vibrant Green */
+  --color-primary-foreground: oklch(0.1 0.01 150);  /* Very Dark Green for contrast */
 
-  /* Radii */
-  --radius: 0.5rem; /* Adjust as needed, 0.5rem is default Shadcn */
+  /* Neutrals & Accents */
+  --color-secondary: oklch(0.25 0.01 250);       /* Dark Gray */
+  --color-secondary-foreground: oklch(0.85 0.01 250); /* Mid-Light Gray */
+  --color-muted: oklch(0.2 0.01 250);           /* Slightly Darker Gray */
+  --color-muted-foreground: oklch(0.6 0.01 250);   /* Standard Gray */
+  --color-accent: oklch(0.25 0.01 250 / 0.5);     /* Dark Gray with Alpha (subtle hover) */
+  --color-accent-foreground: oklch(0.95 0.005 250); /* Light Gray */
 
-  /* Keyframes (Keep accordion defaults) */
-  @keyframes accordion-down {
-    from { height: 0px; }
-    to { height: var(--radix-accordion-content-height); }
-  }
-  @keyframes accordion-up {
-    from { height: var(--radix-accordion-content-height); }
-    to { height: 0px; }
-  }
+  /* Functional Colors */
+  --color-destructive: oklch(0.6 0.2 25);         /* Clear Red */
+  --color-destructive-foreground: oklch(0.98 0.005 25); /* Light text on red */
+  --color-border: oklch(0.3 0.01 250 / 0.7);     /* Darker Gray Border with alpha */
+  --color-input: oklch(0.3 0.01 250 / 0.5);     /* Dark Input background with alpha */
+  --color-ring: oklch(0.75 0.2 150 / 0.6);      /* Primary Green Ring with alpha */
 
-  /* Animations (Keep accordion defaults) */
+  /* Fonts */
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+  /* Radius */
+  --radius: 0.5rem;
+
+  /* Keyframes & Animations (Defaults) */
+  @keyframes accordion-down { from { height: 0px; } to { height: var(--radix-accordion-content-height); } }
+  @keyframes accordion-up { from { height: var(--radix-accordion-content-height); } to { height: 0px; } }
   --animation-accordion-down: accordion-down 0.2s ease-out;
   --animation-accordion-up: accordion-up 0.2s ease-out;
 }
 
-/* Define Dark Mode Overrides *OUTSIDE* @theme */
-.dark {
-  /* Reference: Use OKLCH values consistent with Shadcn stone-dark preset or customize */
-  /* Example Dark Theme Values */
-  --color-background: oklch(0.15 0.01 250); /* Very Dark Gray/Blueish */
-  --color-foreground: oklch(0.98 0.01 250); /* Very Light Gray */
-  --color-card: oklch(0.17 0.01 250); /* Slightly Lighter Dark */
-  --color-card-foreground: oklch(0.98 0.01 250); /* Very Light Gray */
-  --color-popover: oklch(0.17 0.01 250); /* Slightly Lighter Dark */
-  --color-popover-foreground: oklch(0.98 0.01 250); /* Very Light Gray */
-  --color-primary: oklch(0.7 0.18 255); /* Brighter Primary for dark mode */
-  --color-primary-foreground: oklch(0.15 0.01 250); /* Dark text on primary */
-  --color-secondary: oklch(0.25 0.01 250); /* Dark Gray */
-  --color-secondary-foreground: oklch(0.95 0.01 250); /* Light Gray */
-  --color-muted: oklch(0.25 0.01 250); /* Dark Gray */
-  --color-muted-foreground: oklch(0.65 0.01 250); /* Lighter Gray */
-  --color-accent: oklch(0.25 0.01 250); /* Dark Gray */
-  --color-accent-foreground: oklch(0.95 0.01 250); /* Light Gray */
-  --color-destructive: oklch(0.7 0.2 15); /* Slightly brighter Red */
-  --color-destructive-foreground: oklch(0.98 0.01 250); /* Light text on destructive */
-  --color-border: oklch(0.3 0.01 250 / 0.8); /* Darker Gray Border with alpha */
-  --color-input: oklch(0.3 0.01 250 / 0.7); /* Dark Input with alpha */
-  --color-ring: oklch(0.7 0.18 255 / 0.5); /* Brighter Primary ring with alpha */
+/* Define Light Mode Overrides *OUTSIDE* @theme */
+.light {
+  /* Inverted Base */
+  --color-background: oklch(0.99 0.002 250);     /* Near White */
+  --color-foreground: oklch(0.15 0.01 250);      /* Very Dark Gray/Blue */
+  --color-card: oklch(1 0 0);                   /* White */
+  --color-card-foreground: oklch(0.15 0.01 250);   /* Very Dark Gray/Blue */
+  --color-popover: oklch(1 0 0);                /* White */
+  --color-popover-foreground: oklch(0.15 0.01 250);/* Very Dark Gray/Blue */
+
+  /* Primary: Slightly Desaturated Green for Light Mode */
+  --color-primary: oklch(0.65 0.18 145);        /* Slightly Less Vibrant Green */
+  --color-primary-foreground: oklch(1 0 0);       /* White Text */
+
+  /* Neutrals & Accents */
+  --color-secondary: oklch(0.96 0.01 250);      /* Very Light Gray */
+  --color-secondary-foreground: oklch(0.3 0.01 250);/* Dark Gray */
+  --color-muted: oklch(0.94 0.01 250);          /* Light Gray */
+  --color-muted-foreground: oklch(0.45 0.01 250); /* Mid Gray */
+  --color-accent: oklch(0.94 0.01 250 / 0.8);    /* Light Gray with Alpha */
+  --color-accent-foreground: oklch(0.15 0.01 250); /* Dark Text */
+
+  /* Functional */
+  --color-destructive: oklch(0.6 0.2 25);         /* Same Red */
+  --color-destructive-foreground: oklch(1 0 0);    /* White text on red */
+  --color-border: oklch(0.85 0.01 250 / 0.8);    /* Lighter Gray Border */
+  --color-input: oklch(0.9 0.01 250 / 0.9);     /* Light Input BG */
+  --color-ring: oklch(0.65 0.18 145 / 0.5);     /* Primary Light Ring */
 }
 
-/* Base Styles */
-*, *::before, *::after { /* Apply box-sizing globally */
+/* Base Styles - Adjusted slightly */
+*, *::before, *::after {
   box-sizing: border-box;
-  border-color: var(--color-border); /* Apply border color */
-   /* Removed outline-color as ring utilities handle focus */
+  border-color: var(--color-border);
+  -webkit-tap-highlight-color: transparent; /* Prevent tap highlight on mobile */
 }
 
 html {
-  /* Scroll behavior */
   scroll-behavior: smooth;
-  scroll-padding-top: 5rem; /* Adjust based on sticky header height */
-
-  /* Basic font smoothing */
-   -webkit-font-smoothing: antialiased;
-   -moz-osx-font-smoothing: grayscale;
-
-  /* Prevent text size adjustment on orientation change */
-   text-size-adjust: 100%;
-
-   /* Base height and overflow control */
-   height: 100%;
-   overflow-x: hidden; /* Prevent horizontal scrollbars */
+  scroll-padding-top: 5rem; /* Match header height */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-size-adjust: 100%;
+  height: 100%;
+  overflow-x: hidden;
 }
 
 body {
   font-family: var(--font-sans);
   background-color: var(--color-background);
   color: var(--color-foreground);
-  min-height: 100%; /* Ensure body takes at least full viewport height */
-  line-height: 1.6; /* Slightly more relaxed line-height */
+  min-height: 100%;
+  line-height: 1.65; /* Increased for readability */
   margin: 0;
   padding: 0;
-
-  /* Enable scroll snapping on the body */
-  /* Note: scroll-snap on <body> might interfere with modal/dialog scrolling. */
-  /* Consider applying scroll-snap to the <main> element if issues arise */
-  /* Or remove snapping if the "page-by-page" feel isn't desired */
-  /* scroll-snap-type: y mandatory; */
-   overflow-y: scroll; /* Ensure scrollbar is always present if needed */
+  overflow-y: scroll;
+  /* scroll-snap-type: y mandatory; -- Commented out, prefer applying to main > section */
 }
 
-/* Apply scroll snap alignment to direct children sections within main */
-/* This assumes sections are direct children of <main>, adjust selector if needed */
-main > section {
+main > section { /* Applying scroll-snap here */
   scroll-snap-align: start;
-  scroll-snap-stop: always; /* Enforces stopping at the start of each section */
+  scroll-snap-stop: always;
 }
 
-/* Basic heading styles (can be overridden by utilities) */
 h1, h2, h3, h4, h5, h6 {
-  margin-bottom: 0.6em; /* Consistent heading margin */
-  font-weight: 600; /* Semi-bold by default */
-  line-height: 1.2; /* Tighter line height for headings */
+  margin-bottom: 0.6em;
+  font-weight: 700; /* Bolder headings */
+  line-height: 1.25; /* Slightly adjusted */
+  letter-spacing: -0.01em; /* Subtle tightening */
+  text-wrap: balance; /* Improve heading balance */
 }
 
-/* --- Shadcn UI Variable Mapping --- */
-/* Map custom theme vars to Shadcn vars */
+/* --- Shadcn UI Variable Mapping (No Changes) --- */
 :root {
   --background: var(--color-background);
   --foreground: var(--color-foreground);
@@ -151,12 +137,11 @@ h1, h2, h3, h4, h5, h6 {
   --destructive-foreground: var(--color-destructive-foreground);
   --border: var(--color-border);
   --input: var(--color-input);
-  --ring: var(--color-ring); /* Ring color is now directly used */
-  --radius: var(--radius); /* Border radius */
+  --ring: var(--color-ring);
+  --radius: var(--radius);
 }
 
-/* Font Face Definition - Keep if using local Inter font */
-/* Ensure the path is correct relative to your public folder */
+/* Font Face Definition (Keep commented unless local font is used) */
 /* @font-face {
   font-family: 'Inter';
   src: url('/fonts/inter-variable.woff2') format('woff2 supports variations'),
@@ -164,16 +149,8 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 100 900;
   font-display: swap;
 } */
-/* REMOVED @font-face for MissionFont */
 
-
-/* Improve focus states slightly (optional) */
-/* Add a subtle box-shadow alongside the ring for better visibility */
-  /* *:focus-visible {
-    outline: none; */
-    /* Use ring utility from Tailwind which uses --ring variable */
-    /* Example using shadow alongside ring utilities (Tailwind handles the ring part) */
-    /* box-shadow: 0 0 0 3px oklch(from var(--color-ring) l c h / calc(var(--tw-ring-opacity, 1) * 0.6)); */
-  /* } */
+/* Remove specific Shadcn overrides if base theme handles them */
+/* (e.g., focus styles are now implicitly handled by ring) */
 
 /* --- END OF FILE app/globals.css --- */
