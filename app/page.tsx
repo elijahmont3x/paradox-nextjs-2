@@ -1,142 +1,163 @@
-// --- START OF FILE ./app/page.tsx ---
-
+// --- START OF FILE app/page.tsx ---
 "use client";
 
-import React from 'react';
+import React, { Suspense, lazy } from 'react'; // Import React, Suspense, lazy
 // Layout Components
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { Section } from '@/components/ui/Section'; // Import the enhanced Section
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner'; // Simple spinner for suspense
 
-// Section Components
+// Section Components (Use React.lazy for code splitting non-critical sections)
 import { Hero } from "@/components/sections/Hero";
-import { TheAntifragileEdge } from "@/components/sections/TheAntifragileEdge";
-import { CockroachConnection } from "@/components/sections/CockroachConnection";
-import { TokenMechanics } from "@/components/sections/TokenMechanics";
-import { MarketScenarios } from "@/components/sections/MarketScenarios";
-import { Tokenomics } from "@/components/sections/Tokenomics";
-import { SecuritySection } from "@/components/sections/SecuritySection";
-import { Roadmap } from "@/components/sections/Roadmap";
-import { HowToBuy } from "@/components/sections/HowToBuy";
-import { SocialProof } from "@/components/sections/SocialProof";
-import { FAQ } from "@/components/sections/FAQ";
+const TheAntifragileEdge = lazy(() => import('@/components/sections/TheAntifragileEdge').then(module => ({ default: module.TheAntifragileEdge })));
+const CockroachConnection = lazy(() => import('@/components/sections/CockroachConnection').then(module => ({ default: module.CockroachConnection })));
+const TokenMechanics = lazy(() => import('@/components/sections/TokenMechanics').then(module => ({ default: module.TokenMechanics })));
+const MarketScenarios = lazy(() => import('@/components/sections/MarketScenarios').then(module => ({ default: module.MarketScenarios })));
+const Tokenomics = lazy(() => import('@/components/sections/Tokenomics').then(module => ({ default: module.Tokenomics })));
+const SecuritySection = lazy(() => import('@/components/sections/SecuritySection').then(module => ({ default: module.SecuritySection })));
+const Roadmap = lazy(() => import('@/components/sections/Roadmap').then(module => ({ default: module.Roadmap })));
+const HowToBuy = lazy(() => import('@/components/sections/HowToBuy').then(module => ({ default: module.HowToBuy })));
+const SocialProof = lazy(() => import('@/components/sections/SocialProof').then(module => ({ default: module.SocialProof })));
+const FAQ = lazy(() => import('@/components/sections/FAQ').then(module => ({ default: module.FAQ })));
 
 // UI Components
-import { SectionConnector } from "@/components/ui/SectionConnector";
+const SectionConnector = lazy(() => import('@/components/ui/SectionConnector').then(module => ({ default: module.SectionConnector })));
+
 
 export default function Home() {
 
-  // Smooth scroll handler (keep as is)
-  const handleScrollTo = (id: string) => {
+  // Smooth scroll handler (Remains efficient)
+  const handleScrollTo = React.useCallback((id: string) => {
       const element = document.getElementById(id);
-      const headerOffset = 80;
+      const headerOffset = 80; // Match header height
       if (element) {
           const elementPosition = element.getBoundingClientRect().top + window.scrollY;
           const offsetPosition = elementPosition - headerOffset;
           window.scrollTo({ top: offsetPosition, behavior: "smooth" });
       }
-   };
+   }, []); // No dependencies, use useCallback
+
+   // Suspense fallback UI
+    const sectionFallback = (
+        <Section className="flex items-center justify-center">
+            <LoadingSpinner size="lg" />
+        </Section>
+    );
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
-      <Header />
-      {/* Main content area with scroll snapping */}
-      <main className="flex-grow scroll-smooth" style={{ scrollSnapType: 'y mandatory' }}>
-        {/* 1. Hero - Defaults to full height */}
+      <Header onScrollTo={handleScrollTo}/> {/* Pass handler */}
+      {/* Main content area using mandatory scroll-snap on main element */}
+      <main className="flex-grow scroll-smooth snap-y snap-mandatory">
+        {/* --- 1. Hero (Eager Load) --- */}
         <Hero onScrollDown={() => handleScrollTo('the-antifragile-edge')} />
 
-        {/* Connector - Uses its own padding */}
-        <SectionConnector
-            prevSection="Introduction"
-            summary="Existing tokens often fail under pressure."
-            nextConcept="The Core Concept: Antifragility"
-        />
-        {/* 2. Problem / Solution / Antifragility Concept - Defaults to full height */}
-        <TheAntifragileEdge id="the-antifragile-edge" /> {/* Added ID here */}
+         {/* Wrap lazy-loaded components in Suspense */}
+         <Suspense fallback={sectionFallback}>
+              {/* --- Connector --- */}
+              <SectionConnector
+                  prevSection="Introduction"
+                  summary="Conventional tokens often weaken under market pressure."
+                  nextConcept="Understanding Antifragility"
+                  className="!py-10" // Override padding for density
+              />
+              {/* --- 2. Antifragility Concept --- */}
+              <TheAntifragileEdge id="the-antifragile-edge" />
 
-        {/* Connector - Uses its own padding */}
-        <SectionConnector
-            prevSection="Antifragility Explained"
-            summary="Antifragility means gaining from chaos, unlike resilience (surviving) or fragility (breaking)."
-            nextConcept="Why the Cockroach?"
-        />
-        {/* 3. Link to Mascot - Defaults to full height */}
-        <CockroachConnection />
+              {/* --- Connector --- */}
+              <SectionConnector
+                  prevSection="Antifragility: Fragile vs. Resilient vs. Antifragile"
+                  summary="Antifragility means actively *gaining* from chaos, unlike resilience (just surviving)."
+                  nextConcept="Why the Cockroach Emblem?"
+                   className="!py-10"
+              />
+              {/* --- 3. Cockroach Connection --- */}
+              <CockroachConnection id="cockroach-connection"/>
 
-        {/* Connector - Uses its own padding */}
-        <SectionConnector
-            prevSection="The Cockroach Metaphor"
-            summary="Specific cockroach traits inspire $ROACH's adaptive mechanics."
-            nextConcept="Core $ROACH Mechanics (How it Works)"
-        />
-        {/* 4. Detail the 5-tier system - Defaults to full height */}
-        <TokenMechanics />
+              {/* --- Connector --- */}
+              <SectionConnector
+                  prevSection="Nature's Survivor"
+                  summary="Specific cockroach traits (resilience, defense, adaptation) inspired $ROACH's adaptive mechanics."
+                  nextConcept="Core Engine: How $ROACH Adapts"
+                  className="!py-10"
+              />
+              {/* --- 4. Token Mechanics (5-Tier System) --- */}
+              <TokenMechanics id="mechanics" />
 
-        {/* Connector - Uses its own padding */}
-        <SectionConnector
-            prevSection="Core $ROACH Mechanics"
-            summary="The 5-tier system dynamically adjusts taxes and rewards based on market pressure."
-            nextConcept="How $ROACH Performs Differently"
-        />
-        {/* 5. Compare performance - Defaults to full height */}
-        <MarketScenarios />
+              {/* --- Connector --- */}
+              <SectionConnector
+                  prevSection="Dynamic 5-Tier System"
+                  summary="The system auto-adjusts taxes and rewards based on real-time sell/buy pressure (4hr window)."
+                  nextConcept="Performance Simulation: Stress Tests"
+                   className="!py-10"
+              />
+              {/* --- 5. Market Scenarios Comparison --- */}
+              <MarketScenarios id="market-scenarios" />
 
-        {/* Connector - Uses its own padding */}
-        <SectionConnector
-            prevSection="Market Scenario Comparison"
-            summary="$ROACH leverages volatility for potential gain, outperforming static models."
-            nextConcept="Token Supply & Allocation"
-        />
-        {/* 6. Show token distribution - Defaults to full height */}
-        <Tokenomics />
+              {/* --- Connector --- */}
+              <SectionConnector
+                  prevSection="Scenario Simulation"
+                  summary="$ROACH's adaptive model aims to leverage volatility, potentially outperforming static systems under stress."
+                  nextConcept="Token Supply & Allocation Strategy"
+                   className="!py-10"
+              />
+              {/* --- 6. Tokenomics --- */}
+              <Tokenomics id="tokenomics" />
 
-        {/* Connector - Uses its own padding */}
-        <SectionConnector
-            prevSection="Tokenomics Breakdown"
-            summary="A fixed supply strategically allocated for growth and security."
-            nextConcept="Security & Trust Measures"
-        />
-        {/* 7. Build trust - Defaults to full height */}
-        <SecuritySection />
+              {/* --- Connector --- */}
+              <SectionConnector
+                  prevSection="Tokenomics & Supply"
+                  summary="Fixed supply strategically allocated for liquidity, growth, security, and future expansion."
+                  nextConcept="Security Measures & Trust"
+                  className="!py-10"
+              />
+              {/* --- 7. Security --- */}
+              <SecuritySection id="security" />
 
-        {/* Connector - Uses its own padding */}
-        <SectionConnector
-            prevSection="Security Measures"
-            summary="Audited contract, locked liquidity, and vested team ensure a safe foundation."
-            nextConcept="Project Development Roadmap"
-        />
-        {/* 8. Outline future plans - Defaults to full height */}
-        <Roadmap />
+              {/* --- Connector --- */}
+              <SectionConnector
+                  prevSection="Security & Trust Pillars"
+                  summary="Audited contract, locked liquidity, vested team, and fixed supply establish a secure foundation."
+                  nextConcept="Project Development Trajectory"
+                   className="!py-10"
+              />
+              {/* --- 8. Roadmap --- */}
+              <Roadmap id="roadmap" />
 
-        {/* Connector - Uses its own padding */}
-        <SectionConnector
-            prevSection="Roadmap"
-            summary="Phased development focusing on launch, growth, and ecosystem expansion."
-            nextConcept="How to Acquire $ROACH"
-        />
-        {/* 9. Provide buying instructions - Defaults to full height */}
-        <HowToBuy />
+              {/* --- Connector --- */}
+              <SectionConnector
+                  prevSection="Development Roadmap"
+                  summary="Phased development focuses on launch, stabilization, ecosystem growth, and feature expansion."
+                  nextConcept="How to Acquire $ROACH"
+                   className="!py-10"
+              />
+              {/* --- 9. How To Buy --- */}
+              <HowToBuy id="how-to-buy" />
 
-         {/* Connector - Uses its own padding */}
-        <SectionConnector
-            prevSection="How to Buy Guide"
-            summary="Acquire $ROACH easily via Solana wallets and decentralized exchanges."
-            nextConcept="Community Strength & Social Proof"
-        />
-        {/* 10. Show community strength - Defaults to full height */}
-        <SocialProof />
+              {/* --- Connector --- */}
+              <SectionConnector
+                  prevSection="Secure Acquisition Guide"
+                  summary="Acquire $ROACH safely via trusted Solana wallets and DEX aggregators like Jupiter."
+                  nextConcept="Community Strength & Voice"
+                  className="!py-10"
+              />
+              {/* --- 10. Social Proof --- */}
+              <SocialProof id="social-proof"/>
 
-         {/* Connector - Uses its own padding */}
-        <SectionConnector
-            prevSection="Community & Social Proof"
-            summary="Join a rapidly growing and active community supporting the $ROACH vision."
-            nextConcept="Frequently Asked Questions"
-        />
-        {/* 11. Answer common questions - Defaults to full height */}
-        <FAQ />
-
+              {/* --- Connector --- */}
+              <SectionConnector
+                  prevSection="Community Voices"
+                  summary="Join a rapidly growing, engaged community supporting the antifragile vision."
+                  nextConcept="Common Questions Answered"
+                   className="!py-10"
+              />
+              {/* --- 11. FAQ --- */}
+              <FAQ id="faq"/>
+          </Suspense>
       </main>
       <Footer />
     </div>
   );
 }
-// --- END OF FILE ./app/page.tsx ---
+// --- END OF FILE app/page.tsx ---

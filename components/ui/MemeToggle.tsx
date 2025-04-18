@@ -11,7 +11,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "@/components/ui/Tooltip";
 
 interface MemeToggleProps extends React.ComponentPropsWithoutRef<typeof Button> {
   showLabel?: boolean; // Prop to control label visibility (default: false)
